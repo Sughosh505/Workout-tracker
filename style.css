@@ -1,0 +1,1220 @@
+/* ================================================================
+   FORGE — Workout Tracker  |  style.css
+   ================================================================
+   TABLE OF CONTENTS
+   1.  CSS Custom Properties (Design Tokens)
+   2.  Reset & Base
+   3.  Noise Texture Overlay
+   4.  Screen System (show/hide logic)
+   5.  Navigation Bar
+   6.  Home / Dashboard Screen
+       6a. Greeting
+       6b. Stats Row
+       6c. Start Button
+       6d. History Cards
+       6e. Empty State
+   7.  Exercise Picker Screen
+       7a. Layout & Header
+       7b. Search Bar
+       7c. Muscle Filter Chips
+       7d. Exercise Grid & Items
+       7e. Picker Footer Buttons
+   8.  Active Workout Screen
+       8a. Layout & Header
+       8b. Workout Note
+       8c. Exercise Blocks
+       8d. Sets Table & Rows
+       8e. Floating Add Exercise Button
+   9.  Finish Workout Modal
+   10. History Screen
+   11. Muscle Group Color System
+   12. Shared / Utility Styles
+   13. Animations & Keyframes
+   14. Scrollbar Styling
+================================================================ */
+
+
+/* ================================================================
+   1. CSS CUSTOM PROPERTIES (Design Tokens)
+   Change these variables to retheme the entire app instantly.
+================================================================ */
+:root {
+  /* — Background layers (darkest → lightest) — */
+  --bg:       #0a0a0b;  /* Page background */
+  --surface:  #111113;  /* Cards, panels */
+  --surface2: #1a1a1e;  /* Nested elements, inputs */
+  --surface3: #222228;  /* Active nav tab, hover states */
+  --border:   #2a2a32;  /* Borders, dividers */
+
+  /* — Accent colors — */
+  --accent:   #e8ff47;  /* Primary accent (yellow-green) */
+  --accent2:  #ff6b35;  /* Secondary accent (orange) */
+  --accent3:  #7b61ff;  /* Tertiary accent (purple) */
+
+  /* — Text hierarchy — */
+  --text:  #f0f0f5;   /* Primary text */
+  --text2: #8888a0;   /* Secondary / muted text */
+  --text3: #555568;   /* Placeholder / disabled text */
+
+  /* — Semantic colors — */
+  --success: #4ade80;  /* Completed sets, save actions */
+  --danger:  #f87171;  /* Delete/remove actions */
+
+  /* — Border radii — */
+  --radius:    12px;  /* Cards, modals, large elements */
+  --radius-sm:  8px;  /* Inputs, small buttons */
+}
+
+
+/* ================================================================
+   2. RESET & BASE STYLES
+================================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ================================================================
+   3. NOISE TEXTURE OVERLAY
+   Adds a subtle film-grain texture over the entire page.
+   Sits on top of everything (z-index: 9999) but ignores clicks.
+   To remove: delete this rule block.
+================================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+
+/* ================================================================
+   4. SCREEN SYSTEM
+   Each major view is a .screen div. Only the one with .active
+   is shown. JavaScript toggles this class via showScreen().
+================================================================ */
+.screen {
+  display: none;          /* Hidden by default */
+  min-height: 100vh;
+  flex-direction: column;
+  animation: fadeIn 0.2s ease;
+}
+
+.screen.active {
+  display: flex;          /* Shown when JS adds .active */
+}
+
+
+/* ================================================================
+   5. NAVIGATION BAR
+   Sticky top bar with logo, tab switcher, and live timer.
+================================================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 60px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* Frosted glass effect */
+  background: rgba(10, 10, 11, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Brand logo */
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-shadow: 0 0 30px rgba(232, 255, 71, 0.4);
+  user-select: none;
+}
+
+.nav-logo span {
+  color: var(--text2); /* The "." after FORGE */
+}
+
+/* Tab switcher pill container */
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 4px;
+}
+
+/* Individual tab button */
+.nav-tab {
+  padding: 6px 16px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--text2);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-tab.active {
+  background: var(--surface3);
+  color: var(--text);
+}
+
+/* Live workout timer — hidden until JS adds .visible */
+.nav-timer {
+  display: none;          /* Hidden by default */
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  color: var(--accent);
+  background: rgba(232, 255, 71, 0.08);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(232, 255, 71, 0.2);
+}
+
+.nav-timer.visible {
+  display: block;         /* Shown during an active workout */
+}
+
+
+/* ================================================================
+   6. HOME / DASHBOARD SCREEN
+================================================================ */
+
+/* Centered content wrapper */
+.dashboard {
+  padding: 24px 20px;
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── 6a. Greeting ── */
+.greeting {
+  margin-bottom: 32px;
+}
+
+.greeting-sub {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--text3);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.greeting-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 52px;
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+.greeting-title span {
+  color: var(--accent); /* "LIFT." accent */
+}
+
+/* ── 6b. Stats Row ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Colored top accent bar on each stat card */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0.6;
+}
+
+/* Each card gets a different accent color */
+.stat-card:nth-child(2)::before { background: var(--accent2); }
+.stat-card:nth-child(3)::before { background: var(--accent3); }
+
+.stat-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+/* ── Muscle Chart ── */
+.muscle-chart-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 32px;
+}
+
+.muscle-chart-container .section-title {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 220px;
+  width: 100%;
+}
+
+/* Section label (e.g. "Recent Workouts") */
+.section-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--text3);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+/* ── 6c. Start Workout Button ── */
+.start-btn {
+  width: 100%;
+  background: var(--accent);
+  color: #0a0a0b;
+  border: none;
+  border-radius: var(--radius);
+  padding: 18px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gloss sheen overlay on the button */
+.start-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(232, 255, 71, 0.35);
+}
+
+.start-btn:active {
+  transform: translateY(0);
+}
+
+/* ── 6d. History / Recent Workout Cards ── */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.history-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.history-card:hover {
+  border-color: var(--text3);
+}
+
+.history-name {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+
+.history-meta {
+  font-size: 12px;
+  color: var(--text2);
+}
+
+.history-exercises {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+/* Volume display on right side of card */
+.history-vol {
+  text-align: right;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.history-vol span {
+  display: block;
+  font-size: 10px;
+  color: var(--text3);
+  font-family: 'DM Sans', sans-serif;
+  margin-top: 2px;
+}
+
+/* ── 6e. Empty State ── */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text3);
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.empty-text {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* ================================================================
+   7. EXERCISE PICKER SCREEN
+================================================================ */
+
+/* ── 7a. Layout & Header ── */
+.exercise-picker {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.picker-header {
+  margin-bottom: 20px;
+}
+
+.picker-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+/* ── 7b. Search Bar ── */
+.search-bar {
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px 12px 44px; /* left padding leaves room for the icon */
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-input::placeholder {
+  color: var(--text3);
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* ── 7c. Muscle Filter Chips ── */
+.muscle-filters {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0;
+  margin-bottom: 16px;
+  scrollbar-width: none; /* Hide scrollbar on Firefox */
+}
+
+.muscle-filters::-webkit-scrollbar {
+  display: none; /* Hide scrollbar on Chrome/Safari */
+}
+
+.muscle-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text2);
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.muscle-chip.active {
+  background: var(--accent);
+  color: #0a0a0b;
+  border-color: var(--accent);
+}
+
+.muscle-chip:hover:not(.active) {
+  border-color: var(--text3);
+  color: var(--text);
+}
+
+/* ── 7d. Exercise Grid & Items ── */
+.exercise-grid {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.exercise-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.exercise-item:hover {
+  border-color: var(--accent);
+  transform: translateX(3px);
+}
+
+.exercise-item.selected {
+  border-color: var(--accent);
+  background: rgba(232, 255, 71, 0.05);
+}
+
+.exercise-name {
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+
+.exercise-muscle {
+  font-size: 11px;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Small colored dot beside muscle group name */
+.muscle-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Circle indicator showing + or ✓ */
+.add-indicator {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--text3);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.exercise-item:hover .add-indicator {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.exercise-item.selected .add-indicator {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0a0a0b;
+}
+
+/* ── 7e. Picker Footer Buttons ── */
+.picker-footer {
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+}
+
+/* Shared base for secondary + primary buttons */
+.btn-secondary {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 13px;
+  color: var(--text2);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--text3);
+  color: var(--text);
+}
+
+.btn-primary {
+  flex: 2;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 13px;
+  color: #0a0a0b;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+/* ================================================================
+   8. ACTIVE WORKOUT SCREEN
+================================================================ */
+
+/* ── 8a. Layout & Header ── */
+.workout-screen {
+  padding: 16px 20px 100px; /* bottom padding leaves room for floating button */
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.workout-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+/* Editable workout name — looks like a heading until focused */
+.workout-title-input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  outline: none;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px;
+  letter-spacing: 2px;
+  color: var(--text);
+  width: 100%;
+  padding-bottom: 4px;
+  transition: border-color 0.2s ease;
+}
+
+.workout-title-input:focus {
+  border-bottom-color: var(--accent);
+}
+
+.workout-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+/* Small icon-style buttons (discard + finish) */
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.15s ease;
+}
+
+.icon-btn:hover {
+  border-color: var(--text3);
+  color: var(--text);
+}
+
+/* "Finish" button variant — styled differently from the icon buttons */
+.icon-btn.finish {
+  background: var(--success);
+  border-color: var(--success);
+  color: #0a0a0b;
+  padding: 0 14px;
+  width: auto;
+  font-weight: 600;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.icon-btn.finish:hover {
+  opacity: 0.9;
+}
+
+/* ── 8b. Workout Note Textarea ── */
+.workout-note {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  color: var(--text2);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  outline: none;
+  resize: none;
+  height: 52px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.workout-note:focus {
+  color: var(--text);
+}
+
+.workout-note::placeholder {
+  color: var(--text3);
+}
+
+/* ── 8c. Exercise Blocks ── */
+.exercise-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+  animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.exercise-block-header {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.exercise-block-name {
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Muscle group tag badge inside the exercise block header */
+.muscle-badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.exercise-block-remove {
+  background: transparent;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 6px;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+
+.exercise-block-remove:hover {
+  color: var(--danger);
+  background: rgba(248, 113, 113, 0.1);
+}
+
+/* ── 8d. Sets Table & Rows ── */
+.sets-table {
+  width: 100%;
+}
+
+/* Column header row (SET / PREV / KG / REPS) */
+.sets-header {
+  display: grid;
+  grid-template-columns: 36px 1fr 1fr 1fr 40px;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text3);
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.sets-header > * {
+  text-align: center;
+}
+
+.sets-header > *:first-child {
+  text-align: left; /* "SET" label left-aligned */
+}
+
+/* Individual set row */
+.set-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 1fr 1fr 40px;
+  gap: 8px;
+  padding: 8px 16px;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  transition: background 0.15s ease;
+}
+
+.set-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Completed set gets a subtle green tint */
+.set-row.completed {
+  background: rgba(74, 222, 128, 0.04);
+}
+
+/* Set number (1, 2, 3…) */
+.set-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* Previous workout reference text */
+.prev-info {
+  font-size: 11px;
+  color: var(--text3);
+  text-align: center;
+}
+
+/* Weight & reps input fields */
+.set-input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  text-align: center;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.15s ease;
+}
+
+/* Remove browser number input spinners */
+.set-input::-webkit-outer-spin-button,
+.set-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.set-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.set-input:focus {
+  border-color: var(--accent);
+}
+
+/* Styling for inputs in a completed set */
+.set-input.completed-input {
+  border-color: rgba(74, 222, 128, 0.3);
+  background: rgba(74, 222, 128, 0.05);
+  color: var(--success);
+}
+
+/* Checkmark button to mark set as done */
+.set-check {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.15s ease;
+  margin: 0 auto;
+}
+
+.set-check:hover {
+  border-color: var(--success);
+}
+
+.set-check.checked {
+  background: var(--success);
+  border-color: var(--success);
+  color: #0a0a0b;
+}
+
+/* ✓ symbol via pseudo-element */
+.set-check.checked::after {
+  content: '✓';
+}
+
+/* "Add Set" button at the bottom of each exercise block */
+.add-set-btn {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--border);
+  color: var(--text3);
+  padding: 12px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.add-set-btn:hover {
+  color: var(--accent);
+  background: rgba(232, 255, 71, 0.03);
+}
+
+/* ── 8e. Floating Add Exercise Button ── */
+.add-exercise-floating {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 14px 24px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  color: var(--text);
+  font-size: 14px;
+
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+  z-index: 50;
+}
+
+.add-exercise-floating span {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.add-exercise-floating:hover {
+  background: var(--accent);
+  color: #0a0a0b;
+  border-color: var(--accent);
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 12px 40px rgba(232, 255, 71, 0.3);
+}
+
+
+/* ================================================================
+   9. FINISH WORKOUT MODAL
+================================================================ */
+
+/* Dark backdrop overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;          /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.modal-overlay.open {
+  display: flex;          /* Shown when JS adds .open */
+}
+
+/* Modal card */
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 440px;
+  animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-icon {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 8px;
+  color: var(--success);
+}
+
+.modal-subtitle {
+  font-size: 14px;
+  color: var(--text2);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* 3-column summary stats grid */
+.modal-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.modal-stat {
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  text-align: center;
+}
+
+.modal-stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.modal-stat-label {
+  font-size: 10px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 4px;
+}
+
+/* "Keep Going" + "Save Workout" buttons */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+
+/* ================================================================
+   10. HISTORY SCREEN
+================================================================ */
+.history-screen {
+  padding: 24px 20px;
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.history-page-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+
+/* ================================================================
+   11. MUSCLE GROUP COLOR SYSTEM
+   Each muscle group has a unique text color + translucent background.
+   Used on:
+     • .muscle-dot  (picker screen)
+     • .muscle-badge (active workout exercise block header)
+   To add a new muscle group: add a new class following this pattern.
+================================================================ */
+.mg-chest     { color: #ff6b6b; background: rgba(255, 107, 107, 0.12); }
+.mg-back      { color: #7b61ff; background: rgba(123, 97,  255, 0.12); }
+.mg-shoulders { color: #ff9f43; background: rgba(255, 159,  67, 0.12); }
+.mg-biceps    { color: #54a0ff; background: rgba(84,  160, 255, 0.12); }
+.mg-triceps   { color: #5f27cd; background: rgba(95,   39, 205, 0.12); }
+.mg-legs      { color: #01cbd6; background: rgba(1,   203, 214, 0.12); }
+.mg-core      { color: #e8ff47; background: rgba(232, 255,  71, 0.12); }
+.mg-glutes    { color: #ff6b35; background: rgba(255, 107,  53, 0.12); }
+.mg-forearms  { color: #a29bfe; background: rgba(162, 155, 254, 0.12); }
+.mg-cardio    { color: #4ade80; background: rgba(74,  222, 128, 0.12); }
+
+
+/* ================================================================
+   12. SHARED / UTILITY STYLES
+================================================================ */
+
+/* Animated dot used to indicate an active state (e.g. live workout) */
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+  margin-right: 6px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+
+/* ================================================================
+   13. ANIMATIONS & KEYFRAMES
+================================================================ */
+
+/* Screen fade-in (applied on every .screen when activated) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Exercise block entrance animation — bouncy spring effect */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* Modal entrance animation — scale + translate spring */
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0);    }
+}
+
+/* Pulsing glow (used on .pulse-dot) */
+@keyframes pulse {
+  0%,  100% { opacity: 1; }
+  50%        { opacity: 0.3; }
+}
+
+
+/* ================================================================
+   14. SCROLLBAR STYLING
+   Custom thin scrollbars for a cleaner look.
+   Remove these rules to revert to OS-default scrollbars.
+================================================================ */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}

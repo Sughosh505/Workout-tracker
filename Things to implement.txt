@@ -1,0 +1,7 @@
+Things to implement:
+
+circular graph on muscle groups hit from the start which keeps dynamically changing
+PR tab on the top bar which shows your max weight lifted for each and every exercise and needs to change as we hit new max weights
+Progress tracker on the top bar where we can log our progress by updating body weight and upload pictures
+customise the ui by putting a body building picture as background and making it translucent so that It stays the same even if we scroll down or start a new workout
+creating own routine
