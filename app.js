@@ -42,77 +42,77 @@
 ================================================================ */
 const EXERCISES = [
   /* ── Chest ── */
-  { id: 1,  name: 'Bench Press',          muscle: 'Chest'     },
-  { id: 2,  name: 'Incline Bench Press',  muscle: 'Chest'     },
-  { id: 3,  name: 'Decline Bench Press',  muscle: 'Chest'     },
-  { id: 4,  name: 'Dumbbell Fly',         muscle: 'Chest'     },
-  { id: 5,  name: 'Cable Fly',            muscle: 'Chest'     },
-  { id: 6,  name: 'Push-Up',              muscle: 'Chest'     },
-  { id: 7,  name: 'Dip',                  muscle: 'Chest'     },
-  { id: 8,  name: 'Chest Press Machine',  muscle: 'Chest'     },
+  { id: 1, name: 'Bench Press', muscle: 'Chest' },
+  { id: 2, name: 'Incline Bench Press', muscle: 'Chest' },
+  { id: 3, name: 'Decline Bench Press', muscle: 'Chest' },
+  { id: 4, name: 'Dumbbell Fly', muscle: 'Chest' },
+  { id: 5, name: 'Cable Fly', muscle: 'Chest' },
+  { id: 6, name: 'Push-Up', muscle: 'Chest' },
+  { id: 7, name: 'Dip', muscle: 'Chest' },
+  { id: 8, name: 'Chest Press Machine', muscle: 'Chest' },
 
   /* ── Back ── */
-  { id: 9,  name: 'Deadlift',                   muscle: 'Back' },
-  { id: 10, name: 'Pull-Up',                    muscle: 'Back' },
-  { id: 11, name: 'Barbell Row',                muscle: 'Back' },
-  { id: 12, name: 'Lat Pulldown',               muscle: 'Back' },
-  { id: 13, name: 'Seated Cable Row',           muscle: 'Back' },
-  { id: 14, name: 'T-Bar Row',                  muscle: 'Back' },
-  { id: 15, name: 'Single-Arm Dumbbell Row',    muscle: 'Back' },
-  { id: 16, name: 'Face Pull',                  muscle: 'Back' },
+  { id: 9, name: 'Deadlift', muscle: 'Back' },
+  { id: 10, name: 'Pull-Up', muscle: 'Back' },
+  { id: 11, name: 'Barbell Row', muscle: 'Back' },
+  { id: 12, name: 'Lat Pulldown', muscle: 'Back' },
+  { id: 13, name: 'Seated Cable Row', muscle: 'Back' },
+  { id: 14, name: 'T-Bar Row', muscle: 'Back' },
+  { id: 15, name: 'Single-Arm Dumbbell Row', muscle: 'Back' },
+  { id: 16, name: 'Face Pull', muscle: 'Back' },
 
   /* ── Shoulders ── */
-  { id: 17, name: 'Overhead Press',            muscle: 'Shoulders' },
-  { id: 18, name: 'Dumbbell Shoulder Press',   muscle: 'Shoulders' },
-  { id: 19, name: 'Lateral Raise',             muscle: 'Shoulders' },
-  { id: 20, name: 'Front Raise',               muscle: 'Shoulders' },
-  { id: 21, name: 'Arnold Press',              muscle: 'Shoulders' },
-  { id: 22, name: 'Upright Row',               muscle: 'Shoulders' },
+  { id: 17, name: 'Overhead Press', muscle: 'Shoulders' },
+  { id: 18, name: 'Dumbbell Shoulder Press', muscle: 'Shoulders' },
+  { id: 19, name: 'Lateral Raise', muscle: 'Shoulders' },
+  { id: 20, name: 'Front Raise', muscle: 'Shoulders' },
+  { id: 21, name: 'Arnold Press', muscle: 'Shoulders' },
+  { id: 22, name: 'Upright Row', muscle: 'Shoulders' },
 
   /* ── Biceps ── */
-  { id: 23, name: 'Barbell Curl',          muscle: 'Biceps' },
-  { id: 24, name: 'Dumbbell Curl',         muscle: 'Biceps' },
-  { id: 25, name: 'Hammer Curl',           muscle: 'Biceps' },
-  { id: 26, name: 'Preacher Curl',         muscle: 'Biceps' },
+  { id: 23, name: 'Barbell Curl', muscle: 'Biceps' },
+  { id: 24, name: 'Dumbbell Curl', muscle: 'Biceps' },
+  { id: 25, name: 'Hammer Curl', muscle: 'Biceps' },
+  { id: 26, name: 'Preacher Curl', muscle: 'Biceps' },
   { id: 27, name: 'Incline Dumbbell Curl', muscle: 'Biceps' },
-  { id: 28, name: 'Cable Curl',            muscle: 'Biceps' },
+  { id: 28, name: 'Cable Curl', muscle: 'Biceps' },
 
   /* ── Triceps ── */
-  { id: 29, name: 'Tricep Pushdown',             muscle: 'Triceps' },
-  { id: 30, name: 'Skull Crusher',               muscle: 'Triceps' },
-  { id: 31, name: 'Overhead Tricep Extension',   muscle: 'Triceps' },
-  { id: 32, name: 'Close-Grip Bench Press',      muscle: 'Triceps' },
-  { id: 33, name: 'Diamond Push-Up',             muscle: 'Triceps' },
+  { id: 29, name: 'Tricep Pushdown', muscle: 'Triceps' },
+  { id: 30, name: 'Skull Crusher', muscle: 'Triceps' },
+  { id: 31, name: 'Overhead Tricep Extension', muscle: 'Triceps' },
+  { id: 32, name: 'Close-Grip Bench Press', muscle: 'Triceps' },
+  { id: 33, name: 'Diamond Push-Up', muscle: 'Triceps' },
 
   /* ── Legs ── */
-  { id: 34, name: 'Back Squat',             muscle: 'Legs' },
-  { id: 35, name: 'Front Squat',            muscle: 'Legs' },
-  { id: 36, name: 'Leg Press',              muscle: 'Legs' },
-  { id: 37, name: 'Romanian Deadlift',      muscle: 'Legs' },
-  { id: 38, name: 'Leg Extension',          muscle: 'Legs' },
-  { id: 39, name: 'Leg Curl',               muscle: 'Legs' },
-  { id: 40, name: 'Calf Raise',             muscle: 'Legs' },
-  { id: 41, name: 'Walking Lunge',          muscle: 'Legs' },
-  { id: 42, name: 'Bulgarian Split Squat',  muscle: 'Legs' },
+  { id: 34, name: 'Back Squat', muscle: 'Legs' },
+  { id: 35, name: 'Front Squat', muscle: 'Legs' },
+  { id: 36, name: 'Leg Press', muscle: 'Legs' },
+  { id: 37, name: 'Romanian Deadlift', muscle: 'Legs' },
+  { id: 38, name: 'Leg Extension', muscle: 'Legs' },
+  { id: 39, name: 'Leg Curl', muscle: 'Legs' },
+  { id: 40, name: 'Calf Raise', muscle: 'Legs' },
+  { id: 41, name: 'Walking Lunge', muscle: 'Legs' },
+  { id: 42, name: 'Bulgarian Split Squat', muscle: 'Legs' },
 
   /* ── Core ── */
-  { id: 43, name: 'Plank',             muscle: 'Core' },
-  { id: 44, name: 'Crunch',            muscle: 'Core' },
-  { id: 45, name: 'Cable Crunch',      muscle: 'Core' },
+  { id: 43, name: 'Plank', muscle: 'Core' },
+  { id: 44, name: 'Crunch', muscle: 'Core' },
+  { id: 45, name: 'Cable Crunch', muscle: 'Core' },
   { id: 46, name: 'Hanging Leg Raise', muscle: 'Core' },
-  { id: 47, name: 'Ab Wheel Rollout',  muscle: 'Core' },
-  { id: 48, name: 'Russian Twist',     muscle: 'Core' },
+  { id: 47, name: 'Ab Wheel Rollout', muscle: 'Core' },
+  { id: 48, name: 'Russian Twist', muscle: 'Core' },
 
   /* ── Glutes ── */
-  { id: 49, name: 'Hip Thrust',      muscle: 'Glutes' },
-  { id: 50, name: 'Cable Kickback',  muscle: 'Glutes' },
-  { id: 51, name: 'Sumo Deadlift',   muscle: 'Glutes' },
-  { id: 52, name: 'Glute Bridge',    muscle: 'Glutes' },
+  { id: 49, name: 'Hip Thrust', muscle: 'Glutes' },
+  { id: 50, name: 'Cable Kickback', muscle: 'Glutes' },
+  { id: 51, name: 'Sumo Deadlift', muscle: 'Glutes' },
+  { id: 52, name: 'Glute Bridge', muscle: 'Glutes' },
 
   /* ── Forearms ── */
-  { id: 53, name: 'Wrist Curl',          muscle: 'Forearms' },
-  { id: 54, name: 'Reverse Wrist Curl',  muscle: 'Forearms' },
-  { id: 55, name: "Farmer's Walk",       muscle: 'Forearms' },
+  { id: 53, name: 'Wrist Curl', muscle: 'Forearms' },
+  { id: 54, name: 'Reverse Wrist Curl', muscle: 'Forearms' },
+  { id: 55, name: "Farmer's Walk", muscle: 'Forearms' },
 ];
 
 
@@ -123,16 +123,16 @@ const EXERCISES = [
    Add a new entry here whenever you add a new muscle group.
 ================================================================ */
 const MUSCLE_COLORS = {
-  Chest:     'mg-chest',
-  Back:      'mg-back',
+  Chest: 'mg-chest',
+  Back: 'mg-back',
   Shoulders: 'mg-shoulders',
-  Biceps:    'mg-biceps',
-  Triceps:   'mg-triceps',
-  Legs:      'mg-legs',
-  Core:      'mg-core',
-  Glutes:    'mg-glutes',
-  Forearms:  'mg-forearms',
-  Cardio:    'mg-cardio',
+  Biceps: 'mg-biceps',
+  Triceps: 'mg-triceps',
+  Legs: 'mg-legs',
+  Core: 'mg-core',
+  Glutes: 'mg-glutes',
+  Forearms: 'mg-forearms',
+  Cardio: 'mg-cardio',
 };
 
 
@@ -164,8 +164,26 @@ const state = {
   /* Full workout history — loaded from localStorage on page load */
   workoutHistory: JSON.parse(localStorage.getItem('forge_history') || '[]'),
 
-  /* Chart instance for muscle groups */
+  /* Chart instances */
   muscleChartInstance: null,
+  volumeChartInstance: null,
+
+  /* 7-day split data */
+  weeklySplit: JSON.parse(localStorage.getItem('forge_split')) || [
+    { day: 'Monday', name: 'Push Day', exercises: [] },
+    { day: 'Tuesday', name: 'Pull Day', exercises: [] },
+    { day: 'Wednesday', name: 'Leg Day', exercises: [] },
+    { day: 'Thursday', name: 'Active Recovery', exercises: [] },
+    { day: 'Friday', name: 'Upper Body', exercises: [] },
+    { day: 'Saturday', name: 'Lower Body', exercises: [] },
+    { day: 'Sunday', name: 'Rest', exercises: [] }
+  ],
+
+  /* Which day is currently being edited in the builder */
+  activeRoutineDayIndex: null,
+
+  /* Where should picker exercises go? 'workout' or 'routine' */
+  pickerMode: 'workout',
 };
 
 
@@ -174,16 +192,16 @@ const state = {
 ================================================================ */
 /* Color codes mapping for Chart.js corresponding to MUSCLE_COLORS */
 const CHART_COLORS = {
-  Chest:     '#ff6b6b',
-  Back:      '#7b61ff',
+  Chest: '#ff6b6b',
+  Back: '#7b61ff',
   Shoulders: '#ff9f43',
-  Biceps:    '#54a0ff',
-  Triceps:   '#5f27cd',
-  Legs:      '#01cbd6',
-  Core:      '#e8ff47',
-  Glutes:    '#ff6b35',
-  Forearms:  '#a29bfe',
-  Cardio:    '#4ade80',
+  Biceps: '#54a0ff',
+  Triceps: '#5f27cd',
+  Legs: '#01cbd6',
+  Core: '#e8ff47',
+  Glutes: '#ff6b35',
+  Forearms: '#a29bfe',
+  Cardio: '#4ade80',
 };
 
 
@@ -201,11 +219,17 @@ function showTab(tab) {
   /* Update active state on nav tab buttons */
   const tabs = document.querySelectorAll('.nav-tab');
   tabs[0].classList.toggle('active', tab === 'home');
-  tabs[1].classList.toggle('active', tab === 'history');
+  tabs[1].classList.toggle('active', tab === 'routines');
+  tabs[2].classList.toggle('active', tab === 'history');
 
   if (tab === 'home') {
     showScreen('homeScreen');
     updateDashboard(); /* Refresh stats in case history changed */
+  }
+
+  if (tab === 'routines') {
+    showScreen('routinesScreen');
+    renderRoutines();
   }
 
   if (tab === 'history') {
@@ -236,7 +260,7 @@ function showScreen(id) {
  * formats and displays elapsed time since workoutStartTime.
  */
 function startTimer() {
-  const timerEl   = document.getElementById('navTimer');
+  const timerEl = document.getElementById('navTimer');
   const displayEl = document.getElementById('timerDisplay');
 
   timerEl.classList.add('visible');
@@ -247,8 +271,8 @@ function startTimer() {
 
   state.timerInterval = setInterval(() => {
     const totalSeconds = Math.floor((Date.now() - state.workoutStartTime) / 1000);
-    const minutes      = Math.floor(totalSeconds / 60);
-    const seconds      = totalSeconds % 60;
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
     displayEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
   }, 1000);
 }
@@ -279,7 +303,7 @@ function startWorkout() {
 
   /* Pre-fill the title input with a time-appropriate name */
   document.getElementById('workoutTitle').value = getDefaultWorkoutName();
-  document.getElementById('workoutNote').value  = '';
+  document.getElementById('workoutNote').value = '';
   document.getElementById('exerciseBlocks').innerHTML = '';
 
   /* Move to the workout screen (picker opens on top of it) */
@@ -318,10 +342,12 @@ function getDefaultWorkoutName() {
  * openPicker()
  * Resets picker state and shows the picker screen over the workout.
  */
-function openPicker() {
+function openPicker(mode = 'workout') {
+  state.pickerMode = mode;
+
   /* Reset all selections */
   state.pickerSelectedIds = new Set();
-  state.pickerFilter      = 'All';
+  state.pickerFilter = 'All';
 
   /* Clear search input */
   document.getElementById('exerciseSearch').value = '';
@@ -343,7 +369,9 @@ function openPicker() {
  * or to the home screen if no workout is in progress.
  */
 function cancelPicker() {
-  if (state.activeWorkout) {
+  if (state.pickerMode === 'routine') {
+    showScreen('routineBuilderScreen');
+  } else if (state.activeWorkout) {
     showScreen('workoutScreen');
   } else {
     showScreen('homeScreen');
@@ -385,13 +413,13 @@ function filterExercises() {
  * then renders exercise items into #exerciseGrid.
  */
 function renderExerciseGrid() {
-  const query  = document.getElementById('exerciseSearch').value.toLowerCase().trim();
+  const query = document.getElementById('exerciseSearch').value.toLowerCase().trim();
   const filter = state.pickerFilter;
 
   const filtered = EXERCISES.filter(exercise => {
     const matchesMuscle = filter === 'All' || exercise.muscle === filter;
     const matchesSearch = exercise.name.toLowerCase().includes(query)
-                       || exercise.muscle.toLowerCase().includes(query);
+      || exercise.muscle.toLowerCase().includes(query);
     return matchesMuscle && matchesSearch;
   });
 
@@ -407,8 +435,8 @@ function renderExerciseGrid() {
   }
 
   grid.innerHTML = filtered.map(exercise => {
-    const isSelected   = state.pickerSelectedIds.has(exercise.id);
-    const colorClass   = MUSCLE_COLORS[exercise.muscle] || '';
+    const isSelected = state.pickerSelectedIds.has(exercise.id);
+    const colorClass = MUSCLE_COLORS[exercise.muscle] || '';
 
     return `
       <div class="exercise-item ${isSelected ? 'selected' : ''}"
@@ -449,8 +477,8 @@ function toggleExercise(id, el) {
 
   /* Update the footer confirm button */
   const confirmBtn = document.getElementById('addSelectedBtn');
-  const count      = state.pickerSelectedIds.size;
-  confirmBtn.disabled    = count === 0;
+  const count = state.pickerSelectedIds.size;
+  confirmBtn.disabled = count === 0;
   confirmBtn.textContent = count > 0
     ? `Add ${count} Exercise${count > 1 ? 's' : ''}`
     : 'Add Exercises';
@@ -466,21 +494,34 @@ function toggleExercise(id, el) {
 function confirmExercises() {
   state.pickerSelectedIds.forEach(id => {
     const exercise = EXERCISES.find(e => e.id === id);
-
-    /* Skip if exercise not found or already added */
     if (!exercise) return;
-    if (state.activeWorkout.exercises.find(e => e.id === id)) return;
 
-    state.activeWorkout.exercises.push({
-      id:     exercise.id,
-      name:   exercise.name,
-      muscle: exercise.muscle,
-      sets:   [{ weight: '', reps: '', completed: false }], /* Start with one empty set */
-    });
+    if (state.pickerMode === 'routine') {
+      const dayData = state.weeklySplit[state.activeRoutineDayIndex];
+      if (dayData.exercises.find(e => e.id === id)) return;
+      dayData.exercises.push({
+        id: exercise.id,
+        name: exercise.name,
+        muscle: exercise.muscle
+      });
+    } else {
+      if (state.activeWorkout.exercises.find(e => e.id === id)) return;
+      state.activeWorkout.exercises.push({
+        id: exercise.id,
+        name: exercise.name,
+        muscle: exercise.muscle,
+        sets: [{ weight: '', reps: '', completed: false }],
+      });
+    }
   });
 
-  renderExerciseBlocks();
-  showScreen('workoutScreen');
+  if (state.pickerMode === 'routine') {
+    renderRoutineExerciseBlocks();
+    showScreen('routineBuilderScreen');
+  } else {
+    renderExerciseBlocks();
+    showScreen('workoutScreen');
+  }
 }
 
 
@@ -514,7 +555,7 @@ function renderExerciseBlocks() {
  */
 function buildExerciseBlock(exercise, exerciseIndex) {
   const colorClass = MUSCLE_COLORS[exercise.muscle] || '';
-  const setsHTML   = exercise.sets
+  const setsHTML = exercise.sets
     .map((set, setIndex) => buildSetRow(set, exerciseIndex, setIndex))
     .join('');
 
@@ -561,10 +602,10 @@ function buildExerciseBlock(exercise, exerciseIndex) {
  * @returns {string} HTML string
  */
 function buildSetRow(set, exerciseIndex, setIndex) {
-  const prevText    = getPrevSet(state.activeWorkout.exercises[exerciseIndex].id, setIndex);
+  const prevText = getPrevSet(state.activeWorkout.exercises[exerciseIndex].id, setIndex);
   const completedCls = set.completed ? 'completed' : '';
-  const inputCls     = set.completed ? 'completed-input' : '';
-  const checkCls     = set.completed ? 'checked' : '';
+  const inputCls = set.completed ? 'completed-input' : '';
+  const checkCls = set.completed ? 'checked' : '';
 
   return `
     <div class="set-row ${completedCls}" id="setrow-${exerciseIndex}-${setIndex}">
@@ -621,7 +662,7 @@ function buildSetRow(set, exerciseIndex, setIndex) {
 function getPrevSet(exerciseId, setIndex) {
   /* Iterate history from newest to oldest */
   for (let i = state.workoutHistory.length - 1; i >= 0; i--) {
-    const workout  = state.workoutHistory[i];
+    const workout = state.workoutHistory[i];
     const exercise = workout.exercises.find(e => e.id === exerciseId);
 
     if (exercise && exercise.sets[setIndex]) {
@@ -659,24 +700,24 @@ function updateSet(exerciseIndex, setIndex, field, value) {
  * @param {number} setIndex
  */
 function toggleSetComplete(exerciseIndex, setIndex) {
-  const set     = state.activeWorkout.exercises[exerciseIndex].sets[setIndex];
-  const rowEl   = document.getElementById(`setrow-${exerciseIndex}-${setIndex}`);
+  const set = state.activeWorkout.exercises[exerciseIndex].sets[setIndex];
+  const rowEl = document.getElementById(`setrow-${exerciseIndex}-${setIndex}`);
   const checkEl = document.getElementById(`chk-${exerciseIndex}-${setIndex}`);
   const weightEl = document.getElementById(`w-${exerciseIndex}-${setIndex}`);
-  const repsEl   = document.getElementById(`r-${exerciseIndex}-${setIndex}`);
+  const repsEl = document.getElementById(`r-${exerciseIndex}-${setIndex}`);
 
   /* Flip the completed flag */
   set.completed = !set.completed;
 
   /* Sync state with what's currently in the inputs */
   set.weight = weightEl.value;
-  set.reps   = repsEl.value;
+  set.reps = repsEl.value;
 
   /* Update DOM classes */
-  rowEl.classList.toggle('completed',       set.completed);
-  checkEl.classList.toggle('checked',       set.completed);
+  rowEl.classList.toggle('completed', set.completed);
+  checkEl.classList.toggle('checked', set.completed);
   weightEl.classList.toggle('completed-input', set.completed);
-  repsEl.classList.toggle('completed-input',   set.completed);
+  repsEl.classList.toggle('completed-input', set.completed);
 }
 
 /* ── 8g. Add New Set ── */
@@ -693,14 +734,14 @@ function addSet(exerciseIndex) {
     weight: '', reps: '', completed: false,
   });
 
-  const exercise     = state.activeWorkout.exercises[exerciseIndex];
-  const newSetIndex  = exercise.sets.length - 1;
-  const newSet       = exercise.sets[newSetIndex];
+  const exercise = state.activeWorkout.exercises[exerciseIndex];
+  const newSetIndex = exercise.sets.length - 1;
+  const newSet = exercise.sets[newSetIndex];
 
   /* Build and inject the new row */
   const setsContainer = document.getElementById(`sets-${exerciseIndex}`);
-  const wrapper       = document.createElement('div');
-  wrapper.innerHTML   = buildSetRow(newSet, exerciseIndex, newSetIndex);
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = buildSetRow(newSet, exerciseIndex, newSetIndex);
   setsContainer.appendChild(wrapper.firstElementChild);
 
   /* Scroll the new row into view */
@@ -730,10 +771,10 @@ function removeExercise(exerciseIndex) {
  * the finish modal overlay.
  */
 function openFinishModal() {
-  const durationMin  = Math.floor((Date.now() - state.workoutStartTime) / 60000);
-  const exercises    = state.activeWorkout.exercises;
-  let   totalSets    = 0;
-  let   totalVolume  = 0;
+  const durationMin = Math.floor((Date.now() - state.workoutStartTime) / 60000);
+  const exercises = state.activeWorkout.exercises;
+  let totalSets = 0;
+  let totalVolume = 0;
 
   /* Tally completed (or filled) sets across all exercises */
   exercises.forEach(exercise => {
@@ -746,10 +787,10 @@ function openFinishModal() {
   });
 
   /* Inject stats into modal */
-  document.getElementById('modalDuration').textContent  = `Duration: ${durationMin} min`;
+  document.getElementById('modalDuration').textContent = `Duration: ${durationMin} min`;
   document.getElementById('modalExercises').textContent = exercises.length;
-  document.getElementById('modalSets').textContent      = totalSets;
-  document.getElementById('modalVolume').textContent    = Math.round(totalVolume).toLocaleString();
+  document.getElementById('modalSets').textContent = totalSets;
+  document.getElementById('modalVolume').textContent = Math.round(totalVolume).toLocaleString();
 
   document.getElementById('finishModal').classList.add('open');
 }
@@ -768,13 +809,13 @@ function closeFinishModal() {
  * localStorage, stops the timer, and navigates back to home.
  */
 function finishWorkout() {
-  const title       = document.getElementById('workoutTitle').value.trim() || 'Workout';
-  const note        = document.getElementById('workoutNote').value.trim();
+  const title = document.getElementById('workoutTitle').value.trim() || 'Workout';
+  const note = document.getElementById('workoutNote').value.trim();
   const durationMin = Math.floor((Date.now() - state.workoutStartTime) / 60000);
 
   /* Calculate final volume and set count (only filled sets) */
   let totalVolume = 0;
-  let totalSets   = 0;
+  let totalSets = 0;
 
   state.activeWorkout.exercises.forEach(exercise => {
     exercise.sets.forEach(set => {
@@ -787,12 +828,12 @@ function finishWorkout() {
 
   /* Build the workout record */
   const record = {
-    id:          Date.now(),          /* Used as a unique identifier */
+    id: Date.now(),          /* Used as a unique identifier */
     title,
     note,
-    date:        new Date().toISOString(),
-    duration:    durationMin,
-    exercises:   JSON.parse(JSON.stringify(state.activeWorkout.exercises)), /* Deep copy */
+    date: new Date().toISOString(),
+    duration: durationMin,
+    exercises: JSON.parse(JSON.stringify(state.activeWorkout.exercises)), /* Deep copy */
     totalVolume: Math.round(totalVolume),
     totalSets,
   };
@@ -848,13 +889,13 @@ function discardWorkout() {
  * stat cards on the home screen, then re-renders recent workouts.
  */
 function updateDashboard() {
-  const history   = state.workoutHistory;
+  const history = state.workoutHistory;
   let totalVolume = 0;
-  let totalSets   = 0;
+  let totalSets = 0;
 
   history.forEach(workout => {
     totalVolume += workout.totalVolume || 0;
-    totalSets   += workout.totalSets   || 0;
+    totalSets += workout.totalSets || 0;
   });
 
   /* Format large volume numbers (e.g. 12500 → "12.5k") */
@@ -863,12 +904,13 @@ function updateDashboard() {
     : totalVolume;
 
   document.getElementById('statWorkouts').textContent = history.length;
-  document.getElementById('statVolume').textContent   = volumeDisplay;
-  document.getElementById('statSets').textContent     = totalSets;
+  document.getElementById('statVolume').textContent = volumeDisplay;
+  document.getElementById('statSets').textContent = totalSets;
 
   renderRecentWorkouts();
   if (typeof Chart !== 'undefined') {
     updateMuscleChart();
+    updateVolumeChart();
   }
 }
 
@@ -891,13 +933,13 @@ function updateMuscleChart() {
 
   /* Tally sets per muscle group */
   const muscleCounts = {};
-  
+
   history.forEach(workout => {
     if (workout.exercises) {
       workout.exercises.forEach(exercise => {
         const muscle = exercise.muscle;
         if (!muscle) return;
-        
+
         // Count sets that are either marked complete or have valid weight & reps
         // (Similar logic as finishWorkout summary)
         let validSets = 0;
@@ -906,7 +948,7 @@ function updateMuscleChart() {
             validSets++;
           }
         });
-        
+
         if (validSets > 0) {
           muscleCounts[muscle] = (muscleCounts[muscle] || 0) + validSets;
         }
@@ -916,7 +958,7 @@ function updateMuscleChart() {
 
   const labels = Object.keys(muscleCounts);
   const data = Object.values(muscleCounts);
-  
+
   /* If no data to show, hide chart */
   if (data.length === 0) {
     container.style.display = 'none';
@@ -972,7 +1014,7 @@ function updateMuscleChart() {
             displayColors: true,
             boxPadding: 4,
             callbacks: {
-              label: function(context) {
+              label: function (context) {
                 let label = context.label || '';
                 if (label) {
                   label += ': ';
@@ -982,6 +1024,118 @@ function updateMuscleChart() {
                 }
                 return label;
               }
+            }
+          }
+        }
+      }
+    });
+  }
+}
+
+/**
+ * updateVolumeChart()
+ * Calculates daily volume over the last 7 days from workout history
+ * and creates/updates a vertical bar chart.
+ */
+function updateVolumeChart() {
+  const history = state.workoutHistory;
+  const container = document.getElementById('volumeChartContainer');
+  const ctx = document.getElementById('volumeChart');
+
+  if (!container || !ctx) return;
+
+  if (history.length === 0) {
+    container.style.display = 'none';
+    return;
+  }
+
+  // Generate last 7 days labels
+  const days = [];
+  const volumes = [];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    days.push(d.toLocaleDateString('en-US', { weekday: 'short' }));
+    volumes.push(0);
+  }
+
+  // Iterate over history and aggregate volume by day if within last 7 days
+  history.forEach(workout => {
+    const wDate = new Date(workout.date);
+    wDate.setHours(0, 0, 0, 0);
+    const diffTime = today - wDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays >= 0 && diffDays <= 6) {
+      const index = 6 - diffDays;
+      volumes[index] += workout.totalVolume || 0;
+    }
+  });
+
+  container.style.display = 'block';
+
+  const barColor = '#AAEE00'; 
+  
+  if (state.volumeChartInstance) {
+    state.volumeChartInstance.data.labels = days;
+    state.volumeChartInstance.data.datasets[0].data = volumes;
+    state.volumeChartInstance.update();
+  } else {
+    Chart.defaults.color = '#8888a0';
+    Chart.defaults.font.family = "'DM Sans', sans-serif";
+
+    state.volumeChartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: days,
+        datasets: [{
+          label: 'Volume (kg)',
+          data: volumes,
+          backgroundColor: barColor,
+          borderRadius: 4,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: '#222228',
+            titleColor: '#f0f0f5',
+            bodyColor: '#f0f0f5',
+            borderColor: '#2a2a32',
+            borderWidth: 1,
+            padding: 10,
+            displayColors: false,
+            callbacks: {
+              label: function(context) {
+                return context.parsed.y + ' kg';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false,
+              drawBorder: false
+            }
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: '#2a2a32',
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 5
             }
           }
         }
@@ -1019,15 +1173,15 @@ function renderRecentWorkouts() {
  * @returns {string} HTML string
  */
 function buildWorkoutCard(workout) {
-  const date     = new Date(workout.date);
-  const dateStr  = date.toLocaleDateString('en-US', {
+  const date = new Date(workout.date);
+  const dateStr = date.toLocaleDateString('en-US', {
     weekday: 'short', month: 'short', day: 'numeric',
   });
 
   /* Show up to 3 exercise names, then "+N more" */
-  const names    = workout.exercises.map(e => e.name);
-  const preview  = names.slice(0, 3).join(', ')
-                 + (names.length > 3 ? ` · +${names.length - 3} more` : '');
+  const names = workout.exercises.map(e => e.name);
+  const preview = names.slice(0, 3).join(', ')
+    + (names.length > 3 ? ` · +${names.length - 3} more` : '');
 
   return `
     <div class="history-card">
@@ -1053,7 +1207,7 @@ function buildWorkoutCard(workout) {
  * Renders all saved workouts (most recent first) in the history screen.
  */
 function renderHistory() {
-  const listEl  = document.getElementById('historyList');
+  const listEl = document.getElementById('historyList');
   /* Clone and reverse so newest is at the top */
   const history = [...state.workoutHistory].reverse();
 
@@ -1071,9 +1225,144 @@ function renderHistory() {
 
 
 /* ================================================================
-   13. INITIALISATION
+   13. ROUTINES / 7-DAY SPLIT
+================================================================ */
+
+function renderRoutines() {
+  const listEl = document.getElementById('routinesList');
+  if (!listEl) return;
+
+  listEl.innerHTML = state.weeklySplit.map((dayData, index) => {
+    const names = dayData.exercises.map(e => e.name);
+    const exercisesText = names.length > 0 
+      ? names.slice(0, 3).join(', ') + (names.length > 3 ? ` · +${names.length - 3} more` : '')
+      : 'No exercises planned';
+
+    return `
+      <div class="routine-card">
+        <div>
+          <div class="routine-day">${dayData.day}</div>
+          <div class="routine-name">${dayData.name}</div>
+          <div class="routine-exercises">${exercisesText}</div>
+        </div>
+        <div class="routine-actions">
+          <button class="btn-routine" onclick="editRoutine(${index})">Edit</button>
+          <button class="btn-routine start" onclick="startRoutine(${index})">Start</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function editRoutine(dayIndex) {
+  state.activeRoutineDayIndex = dayIndex;
+  const dayData = state.weeklySplit[dayIndex];
+  
+  document.getElementById('routineTitle').value = dayData.name;
+  renderRoutineExerciseBlocks();
+  showScreen('routineBuilderScreen');
+  
+  /* Deactivate tabs */
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+}
+
+function renderRoutineExerciseBlocks() {
+  const container = document.getElementById('routineExerciseBlocks');
+  if (!container) return;
+  const dayData = state.weeklySplit[state.activeRoutineDayIndex];
+  
+  if (dayData.exercises.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state" style="padding: 24px;">
+        <div class="empty-icon">📝</div>
+        <div class="empty-text">No exercises for this day yet.</div>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = dayData.exercises.map((exercise, index) => {
+    const colorClass = MUSCLE_COLORS[exercise.muscle] || '';
+    return `
+      <div class="exercise-block" style="margin-bottom: 8px;">
+        <div class="exercise-block-header">
+          <div class="exercise-block-name">
+            ${exercise.name}
+            <span class="muscle-badge ${colorClass}">${exercise.muscle}</span>
+          </div>
+          <button class="exercise-block-remove" onclick="removeRoutineExercise(${index})">✕</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function removeRoutineExercise(exerciseIndex) {
+  const dayData = state.weeklySplit[state.activeRoutineDayIndex];
+  dayData.exercises.splice(exerciseIndex, 1);
+  renderRoutineExerciseBlocks();
+}
+
+function saveRoutine() {
+  const dayData = state.weeklySplit[state.activeRoutineDayIndex];
+  dayData.name = document.getElementById('routineTitle').value.trim() || dayData.day + ' Workout';
+  
+  localStorage.setItem('forge_split', JSON.stringify(state.weeklySplit));
+  
+  state.activeRoutineDayIndex = null;
+  showTab('routines');
+}
+
+function cancelRoutineEdit() {
+  state.weeklySplit = JSON.parse(localStorage.getItem('forge_split')) || [
+    { day: 'Monday', name: 'Push Day', exercises: [] },
+    { day: 'Tuesday', name: 'Pull Day', exercises: [] },
+    { day: 'Wednesday', name: 'Leg Day', exercises: [] },
+    { day: 'Thursday', name: 'Active Recovery', exercises: [] },
+    { day: 'Friday', name: 'Upper Body', exercises: [] },
+    { day: 'Saturday', name: 'Lower Body', exercises: [] },
+    { day: 'Sunday', name: 'Rest', exercises: [] }
+  ];
+  state.activeRoutineDayIndex = null;
+  showTab('routines');
+}
+
+function startRoutine(dayIndex) {
+  const dayData = state.weeklySplit[dayIndex];
+  
+  /* Create a fresh workout object */
+  state.activeWorkout = { 
+    exercises: dayData.exercises.map(ex => ({
+      ...ex,
+      sets: [{ weight: '', reps: '', completed: false }]
+    }))
+  };
+
+  /* Pre-fill the title input */
+  document.getElementById('workoutTitle').value = dayData.name;
+  document.getElementById('workoutNote').value  = '';
+  
+  /* Clear old blocks before render */
+  document.getElementById('exerciseBlocks').innerHTML = '';
+  
+  renderExerciseBlocks();
+
+  /* Move to the workout screen */
+  showScreen('workoutScreen');
+
+  /* Deactivate nav tabs */
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+
+  /* Start the live timer */
+  startTimer();
+}
+
+
+/* ================================================================
+   14. INITIALISATION
    Runs once when the page loads.
 ================================================================ */
 
 /* Populate the home dashboard from any data already in localStorage */
 updateDashboard();
+

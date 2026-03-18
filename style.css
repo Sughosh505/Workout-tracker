@@ -40,29 +40,44 @@
 ================================================================ */
 :root {
   /* — Background layers (darkest → lightest) — */
-  --bg:       #0a0a0b;  /* Page background */
-  --surface:  #111113;  /* Cards, panels */
-  --surface2: #1a1a1e;  /* Nested elements, inputs */
-  --surface3: #222228;  /* Active nav tab, hover states */
-  --border:   #2a2a32;  /* Borders, dividers */
+  --bg: #0a0a0b;
+  /* Page background */
+  --surface: #111113;
+  /* Cards, panels */
+  --surface2: #1a1a1e;
+  /* Nested elements, inputs */
+  --surface3: #222228;
+  /* Active nav tab, hover states */
+  --border: #2a2a32;
+  /* Borders, dividers */
 
   /* — Accent colors — */
-  --accent:   #e8ff47;  /* Primary accent (yellow-green) */
-  --accent2:  #ff6b35;  /* Secondary accent (orange) */
-  --accent3:  #7b61ff;  /* Tertiary accent (purple) */
+  --accent: #AAEE00;
+  /* Primary accent (yellow-green) */
+  --accent2: #ff6b35;
+  /* Secondary accent (orange) */
+  --accent3: #7b61ff;
+  /* Tertiary accent (purple) */
 
   /* — Text hierarchy — */
-  --text:  #f0f0f5;   /* Primary text */
-  --text2: #8888a0;   /* Secondary / muted text */
-  --text3: #555568;   /* Placeholder / disabled text */
+  --text: #f0f0f5;
+  /* Primary text */
+  --text2: #8888a0;
+  /* Secondary / muted text */
+  --text3: #555568;
+  /* Placeholder / disabled text */
 
   /* — Semantic colors — */
-  --success: #4ade80;  /* Completed sets, save actions */
-  --danger:  #f87171;  /* Delete/remove actions */
+  --success: #4ade80;
+  /* Completed sets, save actions */
+  --danger: #f87171;
+  /* Delete/remove actions */
 
   /* — Border radii — */
-  --radius:    12px;  /* Cards, modals, large elements */
-  --radius-sm:  8px;  /* Inputs, small buttons */
+  --radius: 12px;
+  /* Cards, modals, large elements */
+  --radius-sm: 8px;
+  /* Inputs, small buttons */
 }
 
 
@@ -110,14 +125,16 @@ body::before {
    is shown. JavaScript toggles this class via showScreen().
 ================================================================ */
 .screen {
-  display: none;          /* Hidden by default */
+  display: none;
+  /* Hidden by default */
   min-height: 100vh;
   flex-direction: column;
   animation: fadeIn 0.2s ease;
 }
 
 .screen.active {
-  display: flex;          /* Shown when JS adds .active */
+  display: flex;
+  /* Shown when JS adds .active */
 }
 
 
@@ -153,7 +170,8 @@ body::before {
 }
 
 .nav-logo span {
-  color: var(--text2); /* The "." after FORGE */
+  color: var(--text2);
+  /* The "." after FORGE */
 }
 
 /* Tab switcher pill container */
@@ -186,7 +204,8 @@ body::before {
 
 /* Live workout timer — hidden until JS adds .visible */
 .nav-timer {
-  display: none;          /* Hidden by default */
+  display: none;
+  /* Hidden by default */
   font-family: 'Space Mono', monospace;
   font-size: 14px;
   color: var(--accent);
@@ -197,7 +216,8 @@ body::before {
 }
 
 .nav-timer.visible {
-  display: block;         /* Shown during an active workout */
+  display: block;
+  /* Shown during an active workout */
 }
 
 
@@ -212,6 +232,32 @@ body::before {
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
+}
+
+/* Dashboard Grid Layout */
+.dashboard.dashboard-grid {
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+@media (max-width: 800px) {
+  .dashboard.dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dashboard-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-right {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
 /* ── 6a. Greeting ── */
@@ -236,7 +282,8 @@ body::before {
 }
 
 .greeting-title span {
-  color: var(--accent); /* "LIFT." accent */
+  color: var(--accent);
+  /* "LIFT." accent */
 }
 
 /* ── 6b. Stats Row ── */
@@ -269,8 +316,13 @@ body::before {
 }
 
 /* Each card gets a different accent color */
-.stat-card:nth-child(2)::before { background: var(--accent2); }
-.stat-card:nth-child(3)::before { background: var(--accent3); }
+.stat-card:nth-child(2)::before {
+  background: var(--accent2);
+}
+
+.stat-card:nth-child(3)::before {
+  background: var(--accent3);
+}
 
 .stat-value {
   font-family: 'Bebas Neue', sans-serif;
@@ -287,8 +339,9 @@ body::before {
   margin-top: 4px;
 }
 
-/* ── Muscle Chart ── */
-.muscle-chart-container {
+/* ── Charts ── */
+.muscle-chart-container,
+.volume-chart-container {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -464,7 +517,8 @@ body::before {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 12px 16px 12px 44px; /* left padding leaves room for the icon */
+  padding: 12px 16px 12px 44px;
+  /* left padding leaves room for the icon */
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
@@ -497,11 +551,13 @@ body::before {
   overflow-x: auto;
   padding: 4px 0;
   margin-bottom: 16px;
-  scrollbar-width: none; /* Hide scrollbar on Firefox */
+  scrollbar-width: none;
+  /* Hide scrollbar on Firefox */
 }
 
 .muscle-filters::-webkit-scrollbar {
-  display: none; /* Hide scrollbar on Chrome/Safari */
+  display: none;
+  /* Hide scrollbar on Chrome/Safari */
 }
 
 .muscle-chip {
@@ -670,7 +726,8 @@ body::before {
 
 /* ── 8a. Layout & Header ── */
 .workout-screen {
-  padding: 16px 20px 100px; /* bottom padding leaves room for floating button */
+  padding: 16px 20px 100px;
+  /* bottom padding leaves room for floating button */
   flex: 1;
   max-width: 800px;
   margin: 0 auto;
@@ -845,12 +902,13 @@ body::before {
   background: rgba(0, 0, 0, 0.2);
 }
 
-.sets-header > * {
+.sets-header>* {
   text-align: center;
 }
 
-.sets-header > *:first-child {
-  text-align: left; /* "SET" label left-aligned */
+.sets-header>*:first-child {
+  text-align: left;
+  /* "SET" label left-aligned */
 }
 
 /* Individual set row */
@@ -908,9 +966,7 @@ body::before {
   -webkit-appearance: none;
 }
 
-.set-input[type=number] {
-  -moz-appearance: textfield;
-}
+
 
 .set-input:focus {
   border-color: var(--accent);
@@ -1030,7 +1086,8 @@ body::before {
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  display: none;          /* Hidden by default */
+  display: none;
+  /* Hidden by default */
   align-items: center;
   justify-content: center;
   z-index: 200;
@@ -1038,7 +1095,8 @@ body::before {
 }
 
 .modal-overlay.open {
-  display: flex;          /* Shown when JS adds .open */
+  display: flex;
+  /* Shown when JS adds .open */
 }
 
 /* Modal card */
@@ -1131,6 +1189,90 @@ body::before {
 
 
 /* ================================================================
+   10.5. ROUTINES / 7-DAY SPLIT SCREEN
+================================================================ */
+.routines-screen {
+  padding: 24px 20px;
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.routines-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.routine-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: border-color 0.2s ease;
+}
+
+.routine-card:hover {
+  border-color: var(--text3);
+}
+
+.routine-day {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 3px;
+  color: var(--accent);
+}
+
+.routine-name {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.routine-exercises {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.routine-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-routine {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-routine:hover {
+  background: var(--surface3);
+  border-color: var(--text3);
+}
+
+.btn-routine.start {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0a0a0b;
+}
+
+.btn-routine.start:hover {
+  opacity: 0.9;
+}
+
+
+/* ================================================================
    11. MUSCLE GROUP COLOR SYSTEM
    Each muscle group has a unique text color + translucent background.
    Used on:
@@ -1138,16 +1280,55 @@ body::before {
      • .muscle-badge (active workout exercise block header)
    To add a new muscle group: add a new class following this pattern.
 ================================================================ */
-.mg-chest     { color: #ff6b6b; background: rgba(255, 107, 107, 0.12); }
-.mg-back      { color: #7b61ff; background: rgba(123, 97,  255, 0.12); }
-.mg-shoulders { color: #ff9f43; background: rgba(255, 159,  67, 0.12); }
-.mg-biceps    { color: #54a0ff; background: rgba(84,  160, 255, 0.12); }
-.mg-triceps   { color: #5f27cd; background: rgba(95,   39, 205, 0.12); }
-.mg-legs      { color: #01cbd6; background: rgba(1,   203, 214, 0.12); }
-.mg-core      { color: #e8ff47; background: rgba(232, 255,  71, 0.12); }
-.mg-glutes    { color: #ff6b35; background: rgba(255, 107,  53, 0.12); }
-.mg-forearms  { color: #a29bfe; background: rgba(162, 155, 254, 0.12); }
-.mg-cardio    { color: #4ade80; background: rgba(74,  222, 128, 0.12); }
+.mg-chest {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.12);
+}
+
+.mg-back {
+  color: #7b61ff;
+  background: rgba(123, 97, 255, 0.12);
+}
+
+.mg-shoulders {
+  color: #ff9f43;
+  background: rgba(255, 159, 67, 0.12);
+}
+
+.mg-biceps {
+  color: #54a0ff;
+  background: rgba(84, 160, 255, 0.12);
+}
+
+.mg-triceps {
+  color: #5f27cd;
+  background: rgba(95, 39, 205, 0.12);
+}
+
+.mg-legs {
+  color: #01cbd6;
+  background: rgba(1, 203, 214, 0.12);
+}
+
+.mg-core {
+  color: #e8ff47;
+  background: rgba(232, 255, 71, 0.12);
+}
+
+.mg-glutes {
+  color: #ff6b35;
+  background: rgba(255, 107, 53, 0.12);
+}
+
+.mg-forearms {
+  color: #a29bfe;
+  background: rgba(162, 155, 254, 0.12);
+}
+
+.mg-cardio {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+}
 
 
 /* ================================================================
@@ -1172,26 +1353,52 @@ body::before {
 
 /* Screen fade-in (applied on every .screen when activated) */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Exercise block entrance animation — bouncy spring effect */
 @keyframes slideIn {
-  from { opacity: 0; transform: translateY(20px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Modal entrance animation — scale + translate spring */
 @keyframes modalIn {
-  from { opacity: 0; transform: scale(0.9) translateY(20px); }
-  to   { opacity: 1; transform: scale(1)   translateY(0);    }
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 /* Pulsing glow (used on .pulse-dot) */
 @keyframes pulse {
-  0%,  100% { opacity: 1; }
-  50%        { opacity: 0.3; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
 }
 
 
