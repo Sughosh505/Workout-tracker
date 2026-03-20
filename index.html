@@ -270,6 +270,46 @@
 
 
   <!-- ═══════════════════════════════════════════════════════════════
+       MODAL: EXERCISE INFO
+       Shown when user clicks the "?" next to an exercise.
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay blur-overlay" id="exerciseInfoModal">
+    <div class="modal info-modal">
+      <button class="info-modal-close" onclick="closeInfoModal()">✕</button>
+
+      <div class="info-modal-title" id="infoTitle">Exercise Name</div>
+
+      <div class="info-gif-container">
+        <img id="infoGif" src="" alt="Exercise preview" />
+      </div>
+
+      <div class="info-two-col">
+        <div class="info-left">
+          <div class="info-section-label">Instructions</div>
+          <ul class="info-steps" id="infoSteps">
+            <!-- Injected via JS -->
+          </ul>
+
+          <div class="info-section-label" style="margin-top: 24px;">Common Mistakes</div>
+          <div class="info-mistakes-box" id="infoMistakes">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <div class="info-right">
+          <div class="info-section-label">Targeted Muscles</div>
+          <div class="info-silhouette">
+            <!-- Dummy CSS silhouette placeholder -->
+            <div class="silhouette-body">
+              <div class="silhouette-muscle-highlight" id="infoMuscleBadge">Muscle</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end #exerciseInfoModal -->
+
+  <!-- ═══════════════════════════════════════════════════════════════
        MODAL: FINISH WORKOUT SUMMARY
        Overlays any screen. Stats populated by openFinishModal() in app.js.
        "Save Workout" calls finishWorkout() to persist data.

@@ -115,6 +115,121 @@ const EXERCISES = [
   { id: 55, name: "Farmer's Walk", muscle: 'Forearms' },
 ];
 
+/* ================================================================
+   1b. EXERCISE ENHANCED DATA (MOCK)
+================================================================ */
+const MOCK_METADATA = {
+  Chest: { diff: 3, equip: 'Barbell / Dumbbell', cues: ['Retract scapula', 'Control the eccentric', 'Push through the chest'], steps: ['Lie flat on the bench.', 'Grip the bar comfortably.', 'Lower the weight to your chest slowly.', 'Press back up to the starting position.'], mistakes: ['Flaring elbows out too wide', 'Bouncing the bar off the chest', 'Lifting hips off the bench'] },
+  Back: { diff: 3, equip: 'Barbell / Cable', cues: ['Pull with your elbows', 'Keep chest up', 'Squeeze lats at the top'], steps: ['Hinge at your hips.', 'Keep a neutral spine.', 'Pull the weight towards your torso.', 'Lower the weight under control.'], mistakes: ['Rounding the lower back', 'Using too much momentum', 'Not getting a full stretch'] },
+  Shoulders: { diff: 2, equip: 'Dumbbell', cues: ['Keep core engaged', "Don't use momentum", 'Slow and controlled'], steps: ['Stand or sit with a straight back.', 'Press the weight overhead.', 'Lower back down slowly to shoulder level.'], mistakes: ['Arching the lower back excessively', 'Using leg drive (unless intended)', 'Incomplete range of motion'] },
+  Legs: { diff: 4, equip: 'Barbell / Machine', cues: ['Push through full foot', 'Keep knees in line with toes', 'Brace core hard'], steps: ['Set your stance shoulder-width apart.', 'Descend by bending knees and hips.', 'Keep your chest up as you go down.', 'Drive through your whole foot to stand up.'], mistakes: ['Knees caving inwards (valgus collapse)', 'Heels lifting off the ground', 'Rounding the lower back (butt wink)'] },
+  Biceps: { diff: 1, equip: 'Dumbbell / Cable', cues: ['Keep elbows fixed', 'Squeeze at the top', 'Control the descent'], steps: ['Stand tall with arms fully extended.', 'Curl the weight up while keeping elbows pinned.', 'Squeeze the bicep hard at the top.', 'Lower the weight slowly.'], mistakes: ['Swinging the torso', 'Moving the elbows forward', 'Dropping the weight too fast'] },
+  Triceps: { diff: 1, equip: 'Cable', cues: ['Keep elbows flared in', 'Lock out fully', 'Control the weight'], steps: ['Stand with a slight forward lean.', 'Keep elbows tucked to your sides.', 'Extend your arms down until fully locked out.', 'Return to the start slowly.'], mistakes: ['Letting the elbows drift forward', 'Incomplete lockout', 'Using rounded shoulders to push'] },
+  Core: { diff: 2, equip: 'Bodyweight', cues: ['Breathe through the movement', 'Keep tension constant', "Don't pull on your neck"], steps: ['Lie on your back or setup position.', 'Contract your abs to initiate the movement.', 'Hold the peak contraction for a second.', 'Return to the start with control.'], mistakes: ['Pulling on the neck / head', 'Holding breath', 'Using hip flexors instead of abs'] },
+  Glutes: { diff: 3, equip: 'Barbell / Bodyweight', cues: ['Squeeze glutes at the top', 'Drive through heels', 'Keep chin tucked'], steps: ['Position your upper back on a bench.', 'Plant your feet firmly.', 'Drive your hips up by squeezing your glutes.', 'Lower your hips under control.'], mistakes: ['Hyper-extending the lower back at the top', 'Foot placement too far or too close', 'Not achieving full hip extension'] },
+  Forearms: { diff: 1, equip: 'Dumbbell', cues: ['Full range of motion', "Don't swing", 'High reps usually work best'], steps: ['Rest your forearms on your thighs or a bench.', 'Let the weight stretch your wrists down.', 'Curl your wrists up as far as possible.', 'Lower slowly.'], mistakes: ['Using too much weight', 'Shortening the range of motion', 'Involving the biceps'] },
+};
+
+function getExerciseExtendedData(exercise) {
+  const generic = MOCK_METADATA[exercise.muscle] || { diff: 2, equip: 'Various', cues: ['Focus on form', 'Breathe properly'], steps: ['Prepare the equipment.', 'Perform the movement with good form.', 'Recover.'], mistakes: ['Poor breathing control', 'Rushing the reps'] };
+  return {
+    difficulty: exercise.difficulty || generic.diff,
+    equipment: exercise.equipment || generic.equip,
+    cues: exercise.cues || generic.cues,
+    steps: exercise.steps || generic.steps,
+    mistakes: exercise.mistakes || generic.mistakes,
+    // Provide a placeholder GIF showing a dummy workout animation
+    gif: exercise.gif || `https://placehold.co/600x400/1a1a1e/AAEE00?text=${encodeURIComponent(exercise.name)}+Preview`
+  };
+}
+
+
+/* ================================================================
+   1c. EXERCISE GIF CACHING & FETCHING
+================================================================ */
+const EXERCISEDB_API_KEY = '542d47a662msh53258908763abf1p1db2e9jsn60aa6753adf6'; // User will need to provide their API key
+const gifCache = {};
+let isMobile = window.innerWidth <= 800;
+window.addEventListener('resize', () => isMobile = window.innerWidth <= 800);
+const activeRows = new Set(); // For mobile toggle logic
+
+async function fetchExerciseGif(name) {
+  if (gifCache[name]) return gifCache[name];
+
+  try {
+    const url = `https://exercisedb.p.rapidapi.com/exercises/name/${encodeURIComponent(name.toLowerCase())}?offset=0&limit=1`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'x-rapidapi-key': EXERCISEDB_API_KEY,
+        'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
+      }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (data && data.length > 0) {
+        gifCache[name] = data[0].gifUrl;
+        return data[0].gifUrl;
+      }
+    }
+  } catch (error) {
+    console.warn("ExerciseDB fetch failed", error);
+  }
+
+  const fallback = `https://placehold.co/56x56/111113/AAEE00?text=${name.charAt(0)}`;
+  gifCache[name] = fallback;
+  return fallback;
+}
+
+async function handleRowEnter(e, id, rowEl) {
+  if (isMobile) return;
+  playThumbGif(id);
+}
+
+function handleRowLeave(e, id, rowEl) {
+  if (isMobile) return;
+  stopThumbGif(id);
+}
+
+function handleRowClick(e, id, rowEl) {
+  if (!isMobile) {
+    toggleExercise(id, rowEl);
+    return;
+  }
+
+  // Mobile tap: toggle GIF/preview behavior
+  if (activeRows.has(id)) {
+    activeRows.delete(id);
+    stopThumbGif(id);
+  } else {
+    activeRows.add(id);
+    playThumbGif(id);
+  }
+}
+
+async function playThumbGif(id) {
+  const imgEl = document.getElementById(`thumb-${id}`);
+  if (!imgEl) return;
+  const exercise = EXERCISES.find(e => e.id === id);
+  if (!exercise) return;
+
+  if (!gifCache[exercise.name]) {
+    imgEl.style.opacity = '0.5';
+  }
+
+  const gifUrl = await fetchExerciseGif(exercise.name);
+  imgEl.style.opacity = '1';
+  imgEl.src = gifUrl;
+}
+
+function stopThumbGif(id) {
+  const imgEl = document.getElementById(`thumb-${id}`);
+  if (!imgEl) return;
+  const staticSrc = imgEl.getAttribute('data-static');
+  if (staticSrc) {
+    imgEl.src = staticSrc;
+  }
+}
 
 /* ================================================================
    2. MUSCLE COLOR MAP
@@ -438,17 +553,30 @@ function renderExerciseGrid() {
     const isSelected = state.pickerSelectedIds.has(exercise.id);
     const colorClass = MUSCLE_COLORS[exercise.muscle] || '';
 
+    const staticThumb = `https://placehold.co/56x56/1a1a1e/555568?text=${encodeURIComponent(exercise.name.charAt(0))}`;
     return `
       <div class="exercise-item ${isSelected ? 'selected' : ''}"
-           onclick="toggleExercise(${exercise.id}, this)">
-        <div>
-          <div class="exercise-name">${exercise.name}</div>
-          <div class="exercise-muscle">
-            <span class="muscle-dot ${colorClass}" style="background: currentColor;"></span>
-            ${exercise.muscle}
+           onclick="handleRowClick(event, ${exercise.id}, this)"
+           onmouseenter="handleRowEnter(event, ${exercise.id}, this)"
+           onmouseleave="handleRowLeave(event, ${exercise.id}, this)">
+        <div class="exercise-layout">
+          <div class="exercise-thumb">
+             <img src="${staticThumb}" class="thumb-img" id="thumb-${exercise.id}" data-static="${staticThumb}" />
+          </div>
+          <div class="exercise-info">
+            <div class="exercise-name">${exercise.name}</div>
+            <div class="exercise-muscle">
+              <span class="muscle-dot ${colorClass}" style="background: currentColor;"></span>
+              ${exercise.muscle}
+            </div>
           </div>
         </div>
-        <div class="add-indicator">${isSelected ? '✓' : '+'}</div>
+        <div class="exercise-actions">
+          <button class="icon-info-btn" onclick="event.stopPropagation(); openInfoModal(${exercise.id})">?</button>
+          <div class="add-indicator" onclick="event.stopPropagation(); toggleExercise(${exercise.id}, this.closest('.exercise-item'))">
+            ${isSelected ? '✓' : '+'}
+          </div>
+        </div>
       </div>`;
   }).join('');
 }
@@ -484,7 +612,7 @@ function toggleExercise(id, el) {
     : 'Add Exercises';
 }
 
-/* ── 7f. Confirm & Add to Workout ── */
+/* ── 7g. Confirm & Add to Workout ── */
 
 /**
  * confirmExercises()
@@ -878,6 +1006,47 @@ function discardWorkout() {
   showScreen('homeScreen');
 }
 
+/* ================================================================
+   10b. EXERCISE INFO MODAL
+================================================================ */
+
+function openInfoModal(id) {
+  const exercise = EXERCISES.find(e => e.id === id);
+  if (!exercise) return;
+  
+  const meta = getExerciseExtendedData(exercise);
+  
+  document.getElementById('infoTitle').textContent = exercise.name;
+  
+  const imgEl = document.getElementById('infoGif');
+  if (!gifCache[exercise.name]) {
+    imgEl.style.opacity = '0.5';
+    imgEl.src = meta.gif; // fallback temporarily
+  } else {
+    imgEl.src = gifCache[exercise.name];
+  }
+  
+  // Actually start fetching GIF if not loaded
+  fetchExerciseGif(exercise.name).then(url => {
+    imgEl.src = url;
+    imgEl.style.opacity = '1';
+  });
+
+  const stepsHTML = meta.steps.map(step => `<li>${step}</li>`).join('');
+  document.getElementById('infoSteps').innerHTML = stepsHTML;
+  
+  const mistakesHTML = '<strong>Avoid:</strong> ' + meta.mistakes.join(' • ');
+  document.getElementById('infoMistakes').innerHTML = mistakesHTML;
+  
+  document.getElementById('infoMuscleBadge').textContent = exercise.muscle;
+  
+  document.getElementById('exerciseInfoModal').classList.add('open');
+}
+
+function closeInfoModal() {
+  document.getElementById('exerciseInfoModal').classList.remove('open');
+}
+
 
 /* ================================================================
    11. DASHBOARD / HOME SCREEN
@@ -1054,7 +1223,7 @@ function updateVolumeChart() {
   const volumes = [];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  
+
   for (let i = 6; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
@@ -1068,7 +1237,7 @@ function updateVolumeChart() {
     wDate.setHours(0, 0, 0, 0);
     const diffTime = today - wDate;
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays >= 0 && diffDays <= 6) {
       const index = 6 - diffDays;
       volumes[index] += workout.totalVolume || 0;
@@ -1077,8 +1246,8 @@ function updateVolumeChart() {
 
   container.style.display = 'block';
 
-  const barColor = '#AAEE00'; 
-  
+  const barColor = '#AAEE00';
+
   if (state.volumeChartInstance) {
     state.volumeChartInstance.data.labels = days;
     state.volumeChartInstance.data.datasets[0].data = volumes;
@@ -1115,7 +1284,7 @@ function updateVolumeChart() {
             padding: 10,
             displayColors: false,
             callbacks: {
-              label: function(context) {
+              label: function (context) {
                 return context.parsed.y + ' kg';
               }
             }
@@ -1234,7 +1403,7 @@ function renderRoutines() {
 
   listEl.innerHTML = state.weeklySplit.map((dayData, index) => {
     const names = dayData.exercises.map(e => e.name);
-    const exercisesText = names.length > 0 
+    const exercisesText = names.length > 0
       ? names.slice(0, 3).join(', ') + (names.length > 3 ? ` · +${names.length - 3} more` : '')
       : 'No exercises planned';
 
@@ -1257,11 +1426,11 @@ function renderRoutines() {
 function editRoutine(dayIndex) {
   state.activeRoutineDayIndex = dayIndex;
   const dayData = state.weeklySplit[dayIndex];
-  
+
   document.getElementById('routineTitle').value = dayData.name;
   renderRoutineExerciseBlocks();
   showScreen('routineBuilderScreen');
-  
+
   /* Deactivate tabs */
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
 }
@@ -1270,7 +1439,7 @@ function renderRoutineExerciseBlocks() {
   const container = document.getElementById('routineExerciseBlocks');
   if (!container) return;
   const dayData = state.weeklySplit[state.activeRoutineDayIndex];
-  
+
   if (dayData.exercises.length === 0) {
     container.innerHTML = `
       <div class="empty-state" style="padding: 24px;">
@@ -1280,7 +1449,7 @@ function renderRoutineExerciseBlocks() {
     `;
     return;
   }
-  
+
   container.innerHTML = dayData.exercises.map((exercise, index) => {
     const colorClass = MUSCLE_COLORS[exercise.muscle] || '';
     return `
@@ -1306,9 +1475,9 @@ function removeRoutineExercise(exerciseIndex) {
 function saveRoutine() {
   const dayData = state.weeklySplit[state.activeRoutineDayIndex];
   dayData.name = document.getElementById('routineTitle').value.trim() || dayData.day + ' Workout';
-  
+
   localStorage.setItem('forge_split', JSON.stringify(state.weeklySplit));
-  
+
   state.activeRoutineDayIndex = null;
   showTab('routines');
 }
@@ -1329,9 +1498,9 @@ function cancelRoutineEdit() {
 
 function startRoutine(dayIndex) {
   const dayData = state.weeklySplit[dayIndex];
-  
+
   /* Create a fresh workout object */
-  state.activeWorkout = { 
+  state.activeWorkout = {
     exercises: dayData.exercises.map(ex => ({
       ...ex,
       sets: [{ weight: '', reps: '', completed: false }]
@@ -1340,11 +1509,11 @@ function startRoutine(dayIndex) {
 
   /* Pre-fill the title input */
   document.getElementById('workoutTitle').value = dayData.name;
-  document.getElementById('workoutNote').value  = '';
-  
+  document.getElementById('workoutNote').value = '';
+
   /* Clear old blocks before render */
   document.getElementById('exerciseBlocks').innerHTML = '';
-  
+
   renderExerciseBlocks();
 
   /* Move to the workout screen */

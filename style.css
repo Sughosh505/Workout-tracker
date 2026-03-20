@@ -486,18 +486,26 @@ body::before {
 ================================================================ */
 
 /* ── 7a. Layout & Header ── */
+#pickerScreen {
+  min-height: 0;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
+
 .exercise-picker {
   padding: 20px;
-  flex: 1;
   display: flex;
   flex-direction: column;
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .picker-header {
   margin-bottom: 20px;
+  flex-shrink: 0;
 }
 
 .picker-title {
@@ -553,6 +561,7 @@ body::before {
   margin-bottom: 16px;
   scrollbar-width: none;
   /* Hide scrollbar on Firefox */
+  flex-shrink: 0;
 }
 
 .muscle-filters::-webkit-scrollbar {
@@ -594,7 +603,21 @@ body::before {
   flex-direction: column;
   gap: 8px;
   scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-color: var(--accent) var(--surface2);
+}
+
+.exercise-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.exercise-grid::-webkit-scrollbar-track {
+  background: var(--surface2);
+  border-radius: 4px;
+}
+
+.exercise-grid::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 4px;
 }
 
 .exercise-item {
@@ -619,6 +642,36 @@ body::before {
   background: rgba(232, 255, 71, 0.05);
 }
 
+.exercise-layout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.exercise-thumb {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.2s;
+}
+
+.exercise-info {
+  display: flex;
+  flex-direction: column;
+}
+
 .exercise-name {
   font-weight: 500;
   font-size: 15px;
@@ -640,6 +693,35 @@ body::before {
   border-radius: 50%;
   display: inline-block;
   flex-shrink: 0;
+}
+
+/* Button & Actions */
+.exercise-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-info-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.icon-info-btn:hover {
+  background: var(--surface3);
+  color: var(--text);
+  border-color: var(--text3);
 }
 
 /* Circle indicator showing + or ✓ */
@@ -674,6 +756,7 @@ body::before {
   border-top: 1px solid var(--border);
   display: flex;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 /* Shared base for secondary + primary buttons */
@@ -718,7 +801,6 @@ body::before {
   opacity: 0.4;
   cursor: not-allowed;
 }
-
 
 /* ================================================================
    8. ACTIVE WORKOUT SCREEN
@@ -1072,6 +1154,147 @@ body::before {
   border-color: var(--accent);
   transform: translateX(-50%) translateY(-2px);
   box-shadow: 0 12px 40px rgba(232, 255, 71, 0.3);
+}
+
+/* ================================================================
+   8B. INFO MODAL
+================================================================ */
+.blur-overlay {
+  background: rgba(10, 10, 11, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.info-modal {
+  width: 90%;
+  max-width: 600px;
+  padding: 24px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.info-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: var(--text2);
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.info-modal-close:hover {
+  color: var(--text);
+}
+.info-modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.info-gif-container {
+  width: 100%;
+  height: 240px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.info-gif-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.info-two-col {
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  gap: 20px;
+}
+@media (max-width: 600px) {
+  .info-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+.info-section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text3);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.info-steps {
+  list-style-type: decimal;
+  padding-left: 16px;
+  margin-bottom: 24px;
+}
+.info-steps li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+.info-mistakes-box {
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  color: #ffcccc;
+  font-size: 13px;
+  line-height: 1.5;
+}
+/* Silhouette Placeholder */
+.info-silhouette {
+  height: 220px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.silhouette-body {
+  width: 80px;
+  height: 160px;
+  background: transparent;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Create a basic CSS body silhouette */
+.silhouette-body::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--text3);
+}
+.silhouette-body::after {
+  content: '';
+  position: absolute;
+  top: 40px;
+  width: 60px;
+  height: 70px;
+  border-radius: 20px 20px 10px 10px;
+  background: var(--text3);
+}
+.silhouette-muscle-highlight {
+  background: rgba(232, 255, 71, 0.2);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  z-index: 2;
+  position: absolute;
 }
 
 
