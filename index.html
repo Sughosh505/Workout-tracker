@@ -125,47 +125,50 @@
        Allows searching & filtering exercises, then adding them to session.
   ═══════════════════════════════════════════════════════════════ -->
   <div class="screen" id="pickerScreen">
-    <div class="exercise-picker">
-
-      <!-- Header: title + search bar -->
-      <div class="picker-header">
-        <div class="picker-title">ADD EXERCISES</div>
-        <div class="search-bar">
-          <span class="search-icon">🔍</span>
-          <!-- oninput fires filterExercises() on every keystroke -->
-          <input type="text" class="search-input" id="exerciseSearch" placeholder="Search exercises..."
-            oninput="filterExercises()" />
+    <div class="picker-layout-container">
+      
+      <!-- Left Panel -->
+      <div class="picker-left-panel">
+        <div class="picker-sticky-header">
+          <div class="picker-title">ADD EXERCISES</div>
+          <div class="search-bar" style="margin-bottom: 16px;">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="exerciseSearch" placeholder="Search exercises..." oninput="filterExercises()" />
+          </div>
+          <div class="muscle-filters" id="muscleFilters">
+            <button class="muscle-chip active" data-muscle="All" onclick="filterByMuscle(this)">All</button>
+            <button class="muscle-chip" data-muscle="Chest" onclick="filterByMuscle(this)">Chest</button>
+            <button class="muscle-chip" data-muscle="Back" onclick="filterByMuscle(this)">Back</button>
+            <button class="muscle-chip" data-muscle="Shoulders" onclick="filterByMuscle(this)">Shoulders</button>
+            <button class="muscle-chip" data-muscle="Biceps" onclick="filterByMuscle(this)">Biceps</button>
+            <button class="muscle-chip" data-muscle="Triceps" onclick="filterByMuscle(this)">Triceps</button>
+            <button class="muscle-chip" data-muscle="Legs" onclick="filterByMuscle(this)">Legs</button>
+            <button class="muscle-chip" data-muscle="Core" onclick="filterByMuscle(this)">Core</button>
+            <button class="muscle-chip" data-muscle="Glutes" onclick="filterByMuscle(this)">Glutes</button>
+            <button class="muscle-chip" data-muscle="Forearms" onclick="filterByMuscle(this)">Forearms</button>
+          </div>
+        </div>
+        
+        <div class="exercise-grid" id="exerciseGrid">
+          <!-- Populated dynamically by JavaScript -->
         </div>
       </div>
 
-      <!-- Muscle group filter chips — filterByMuscle() handles active state -->
-      <div class="muscle-filters" id="muscleFilters">
-        <button class="muscle-chip active" data-muscle="All" onclick="filterByMuscle(this)">All</button>
-        <button class="muscle-chip" data-muscle="Chest" onclick="filterByMuscle(this)">Chest</button>
-        <button class="muscle-chip" data-muscle="Back" onclick="filterByMuscle(this)">Back</button>
-        <button class="muscle-chip" data-muscle="Shoulders" onclick="filterByMuscle(this)">Shoulders</button>
-        <button class="muscle-chip" data-muscle="Biceps" onclick="filterByMuscle(this)">Biceps</button>
-        <button class="muscle-chip" data-muscle="Triceps" onclick="filterByMuscle(this)">Triceps</button>
-        <button class="muscle-chip" data-muscle="Legs" onclick="filterByMuscle(this)">Legs</button>
-        <button class="muscle-chip" data-muscle="Core" onclick="filterByMuscle(this)">Core</button>
-        <button class="muscle-chip" data-muscle="Glutes" onclick="filterByMuscle(this)">Glutes</button>
-        <button class="muscle-chip" data-muscle="Forearms" onclick="filterByMuscle(this)">Forearms</button>
+      <!-- Right Panel -->
+      <div class="picker-right-panel" id="exercisePreviewPanel">
+        <!-- Populated by JavaScript -->
+        <div class="preview-placeholder">
+          <div class="preview-watermark">FORGE</div>
+          <div class="preview-hint">Select or hover an exercise to preview</div>
+        </div>
       </div>
 
-      <!-- Exercise list — rendered by renderExerciseGrid() in app.js -->
-      <div class="exercise-grid" id="exerciseGrid">
-        <!-- Populated dynamically by JavaScript -->
-      </div>
+    </div>
 
-      <!-- Footer: Cancel + confirm selection -->
-      <div class="picker-footer">
-        <button class="btn-secondary" onclick="cancelPicker()">Cancel</button>
-        <!-- Button text + disabled state managed by toggleExercise() -->
-        <button class="btn-primary" id="addSelectedBtn" onclick="confirmExercises()" disabled>
-          Add Exercises
-        </button>
-      </div>
-
+    <!-- Fixed full width footer -->
+    <div class="picker-fixed-bottom-bar">
+      <button class="btn-secondary" onclick="cancelPicker()">Cancel</button>
+      <button class="btn-primary" id="addSelectedBtn" onclick="confirmExercises()" disabled>Add Exercises</button>
     </div>
   </div><!-- end #pickerScreen -->
 

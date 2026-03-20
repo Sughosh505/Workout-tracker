@@ -489,22 +489,40 @@ body::before {
 #pickerScreen {
   min-height: 0;
   height: calc(100vh - 60px);
+  width: 100%;
   overflow: hidden;
-}
-
-.exercise-picker {
-  padding: 20px;
+  background: #0d0d0d;
   display: flex;
   flex-direction: column;
-  max-width: 800px;
-  margin: 0 auto;
+}
+
+.picker-layout-container {
+  display: flex;
+  flex: 1;
   width: 100%;
-  height: 100%;
   overflow: hidden;
 }
 
-.picker-header {
-  margin-bottom: 20px;
+.picker-left-panel {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  padding: 24px;
+  height: 100%;
+}
+
+.picker-right-panel {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  overflow-y: auto;
+  position: relative;
+  background: #0d0d0d;
+}
+
+.picker-sticky-header {
   flex-shrink: 0;
 }
 
@@ -512,7 +530,7 @@ body::before {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 36px;
   letter-spacing: 2px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 /* ── 7b. Search Bar ── */
@@ -750,13 +768,169 @@ body::before {
   color: #0a0a0b;
 }
 
-/* ── 7e. Picker Footer Buttons ── */
-.picker-footer {
-  padding-top: 16px;
+/* ── 7e. Fixed Bottom Bar ── */
+.picker-fixed-bottom-bar {
+  padding: 16px 24px;
   border-top: 1px solid var(--border);
   display: flex;
-  gap: 10px;
+  gap: 16px;
+  background: var(--surface);
   flex-shrink: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+/* ── 7f. Exercise Preview Panel ── */
+.preview-placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0.2;
+}
+
+.preview-watermark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  letter-spacing: 12px;
+  color: var(--text3);
+  margin-bottom: 16px;
+  margin-right: -12px; /* adjust for trailing tracking */
+}
+
+.preview-hint {
+  font-size: 16px;
+  color: var(--text2);
+}
+
+.preview-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.preview-gif {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--surface2);
+}
+
+.preview-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preview-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  letter-spacing: 1px;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.preview-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-muscle {
+  background: rgba(255,255,255,0.1);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.badge-equip {
+  background: rgba(255,255,255,0.05);
+  color: var(--text2);
+  border: 1px solid var(--border);
+}
+
+.difficulty-stars {
+  display: flex;
+  gap: 2px;
+  color: var(--accent);
+  font-size: 14px;
+}
+
+.difficulty-stars .empty {
+  color: var(--text3);
+}
+
+.preview-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 4px;
+}
+
+.preview-section-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text3);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.preview-cues-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.preview-cues-list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.preview-cues-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.preview-silhouette {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--surface2);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+}
+
+.silhouette-placeholder {
+  font-size: 12px;
+  color: var(--text3);
+  text-align: center;
 }
 
 /* Shared base for secondary + primary buttons */

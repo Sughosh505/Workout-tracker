@@ -154,7 +154,7 @@ window.addEventListener('resize', () => isMobile = window.innerWidth <= 800);
 const activeRows = new Set(); // For mobile toggle logic
 
 async function fetchExerciseGif(name) {
-  if (gifCache[name]) return gifCache[name];
+  if (gifCache[name] !== undefined) return gifCache[name];
 
   try {
     const url = `https://exercisedb.p.rapidapi.com/exercises/name/${encodeURIComponent(name.toLowerCase())}?offset=0&limit=1`;
@@ -167,7 +167,7 @@ async function fetchExerciseGif(name) {
     });
     if (response.ok) {
       const data = await response.json();
-      if (data && data.length > 0) {
+      if (data && data.length > 0 && data[0].gifUrl) {
         gifCache[name] = data[0].gifUrl;
         return data[0].gifUrl;
       }
@@ -176,14 +176,15 @@ async function fetchExerciseGif(name) {
     console.warn("ExerciseDB fetch failed", error);
   }
 
-  const fallback = `https://placehold.co/56x56/111113/AAEE00?text=${name.charAt(0)}`;
-  gifCache[name] = fallback;
-  return fallback;
+  // Cache as null on failure to prevent repeated fetches
+  gifCache[name] = null;
+  return null;
 }
 
 async function handleRowEnter(e, id, rowEl) {
   if (isMobile) return;
   playThumbGif(id);
+  renderExercisePreview(id);
 }
 
 function handleRowLeave(e, id, rowEl) {
@@ -194,6 +195,7 @@ function handleRowLeave(e, id, rowEl) {
 function handleRowClick(e, id, rowEl) {
   if (!isMobile) {
     toggleExercise(id, rowEl);
+    renderExercisePreview(id);
     return;
   }
 
@@ -201,9 +203,11 @@ function handleRowClick(e, id, rowEl) {
   if (activeRows.has(id)) {
     activeRows.delete(id);
     stopThumbGif(id);
+    renderExercisePreview(null);
   } else {
     activeRows.add(id);
     playThumbGif(id);
+    renderExercisePreview(id);
   }
 }
 
@@ -213,13 +217,17 @@ async function playThumbGif(id) {
   const exercise = EXERCISES.find(e => e.id === id);
   if (!exercise) return;
 
-  if (!gifCache[exercise.name]) {
+  if (gifCache[exercise.name] === undefined) {
     imgEl.style.opacity = '0.5';
   }
 
   const gifUrl = await fetchExerciseGif(exercise.name);
   imgEl.style.opacity = '1';
-  imgEl.src = gifUrl;
+  if (gifUrl) {
+    imgEl.src = gifUrl;
+  } else {
+    imgEl.src = `https://placehold.co/56x56/1A1A1E/AAEE00?text=${encodeURIComponent(exercise.name.charAt(0))}`;
+  }
 }
 
 function stopThumbGif(id) {
@@ -228,6 +236,85 @@ function stopThumbGif(id) {
   const staticSrc = imgEl.getAttribute('data-static');
   if (staticSrc) {
     imgEl.src = staticSrc;
+  }
+}
+
+/* ================================================================
+   1d. EXERCISE PREVIEW PANEL
+================================================================ */
+async function renderExercisePreview(id) {
+  const panel = document.getElementById('exercisePreviewPanel');
+  if (!panel) return;
+
+  if (!id) {
+    // Default placeholder state
+    panel.innerHTML = `
+      <div class="preview-placeholder">
+        <div class="preview-watermark">FORGE</div>
+        <div class="preview-hint">Select or hover an exercise to preview</div>
+      </div>
+    `;
+    return;
+  }
+
+  const exercise = EXERCISES.find(e => e.id === id);
+  if (!exercise) return;
+
+  const data = getExerciseExtendedData(exercise);
+  const colorClass = MUSCLE_COLORS[exercise.muscle] || '';
+
+  let starsHtml = '';
+  for (let i = 1; i <= 5; i++) {
+    starsHtml += `<span class="${i <= data.difficulty ? '' : 'empty'}">★</span>`;
+  }
+
+  const cuesHtml = data.cues.map(cue => `<li>${cue}</li>`).join('');
+
+  panel.innerHTML = `
+    <div class="preview-content">
+      <img src="${data.gif}" class="preview-gif" id="preview-gif-main" alt="Exercise animation" />
+      
+      <div class="preview-header">
+        <div class="preview-title">${exercise.name}</div>
+        <div class="preview-badges-row">
+          <div class="badge badge-muscle">
+            <span class="muscle-dot ${colorClass}" style="background: currentColor;"></span>
+            ${exercise.muscle}
+          </div>
+          <div class="difficulty-stars">${starsHtml}</div>
+          <div class="badge badge-equip">${data.equipment}</div>
+        </div>
+      </div>
+      
+      <div class="preview-body">
+        <div class="preview-body-left">
+          <div class="preview-section-title">Primary Muscles</div>
+          <div class="preview-silhouette">
+             <div class="silhouette-placeholder">Silhouette<br/>Diagram</div>
+          </div>
+        </div>
+        <div class="preview-body-right">
+          <div class="preview-section-title">Form Cues</div>
+          <ul class="preview-cues-list">
+            ${cuesHtml}
+          </ul>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Fetch true GIF if not yet loaded
+  if (gifCache[exercise.name] === undefined) {
+    const fetchedGif = await fetchExerciseGif(exercise.name);
+    const imgEl = document.getElementById('preview-gif-main');
+    if (imgEl && document.body.contains(imgEl)) {
+      if (fetchedGif) {
+        imgEl.src = fetchedGif;
+      }
+    }
+  } else if (gifCache[exercise.name]) {
+    const imgEl = document.getElementById('preview-gif-main');
+    if (imgEl) imgEl.src = gifCache[exercise.name];
   }
 }
 
@@ -474,6 +561,9 @@ function openPicker(mode = 'workout') {
 
   /* Render the full unfiltered list */
   renderExerciseGrid();
+
+  /* Reset preview pane to placeholder */
+  renderExercisePreview(null);
 
   showScreen('pickerScreen');
 }
