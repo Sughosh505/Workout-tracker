@@ -6,67 +6,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FORGE — Workout Tracker</title>
 
-  <!-- ─────────────────────────────────────────────────────────────
-       GOOGLE FONTS
-       • Bebas Neue  → Display headings / logo
-       • DM Sans     → Body text, buttons, labels
-       • Space Mono  → Numbers, timer, set data
-       To swap fonts, replace the URL below and update style.css
-  ───────────────────────────────────────────────────────────────── -->
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
     rel="stylesheet" />
 
-  <!-- Main stylesheet -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Chart.js for Muscle Group Graph -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       GLOBAL NAVIGATION BAR
-       Always visible at the top. Contains:
-       - Logo (left)
-       - Tab switcher: Home / History (center)
-       - Live workout timer — hidden by default, shown during session (right)
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- GLOBAL NAVIGATION BAR -->
   <nav class="nav" id="mainNav">
     <div class="nav-logo">FORGE<span>.</span></div>
 
-    <!-- Tab buttons — JS toggles the .active class on these -->
     <div class="nav-tabs" id="navTabs">
       <button class="nav-tab active" onclick="showTab('home')">Home</button>
+      <button class="nav-tab" onclick="showTab('exercises')">Add Exercises</button>
       <button class="nav-tab" onclick="showTab('routines')">Routines</button>
       <button class="nav-tab" onclick="showTab('history')">History</button>
     </div>
 
-    <!-- Timer: hidden until a workout starts, shown via .visible class -->
     <div class="nav-timer" id="navTimer">
       ⏱ <span id="timerDisplay">0:00</span>
     </div>
   </nav>
 
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SCREEN: HOME / DASHBOARD
-       Shown by default. Displays stats + start button + recent workouts.
-       JS toggles .active to show/hide screens.
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- SCREEN: HOME / DASHBOARD -->
   <div class="screen active" id="homeScreen">
     <div class="dashboard dashboard-grid">
 
       <!-- Left Column -->
       <div class="dashboard-left">
-        <!-- Greeting section -->
         <div class="greeting">
           <div class="greeting-sub">Welcome back</div>
           <div class="greeting-title">LET'S <span>LIFT.</span></div>
         </div>
 
-        <!-- Stats row — values injected by JS (updateDashboard) -->
         <div class="stats-row">
           <div class="stat-card">
             <div class="stat-value" id="statWorkouts">0</div>
@@ -82,23 +60,19 @@
           </div>
         </div>
 
-        <!-- Primary CTA — triggers startWorkout() in app.js -->
         <button class="start-btn" onclick="startWorkout()">⚡ START WORKOUT</button>
 
-        <!-- Recent workouts list — rendered by renderRecentWorkouts() in app.js -->
         <div class="section-title">Recent Workouts</div>
         <div class="history-list" id="recentList">
-          <!-- Populated dynamically by JavaScript -->
           <div class="empty-state">
             <div class="empty-icon">🏋️</div>
             <div class="empty-text">No workouts yet.<br />Start your first session above!</div>
           </div>
         </div>
-      </div><!-- end .dashboard-left -->
+      </div>
 
       <!-- Right Column -->
       <div class="dashboard-right">
-        <!-- Muscle Chart Section -->
         <div class="muscle-chart-container" id="muscleChartContainer" style="display: none;">
           <div class="section-title">Muscle Groups Hit (Sets)</div>
           <div class="chart-wrapper">
@@ -106,24 +80,19 @@
           </div>
         </div>
 
-        <!-- Volume Chart Section -->
         <div class="volume-chart-container" id="volumeChartContainer" style="display: none;">
           <div class="section-title">Weekly Volume (kg)</div>
           <div class="chart-wrapper">
             <canvas id="volumeChart"></canvas>
           </div>
         </div>
-      </div><!-- end .dashboard-right -->
+      </div>
 
     </div>
-  </div><!-- end #homeScreen -->
+  </div>
 
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SCREEN: EXERCISE PICKER
-       Shown when user taps "Start Workout" or "Add Exercise".
-       Allows searching & filtering exercises, then adding them to session.
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- SCREEN: EXERCISE PICKER -->
   <div class="screen" id="pickerScreen">
     <div class="picker-layout-container">
       
@@ -156,7 +125,6 @@
 
       <!-- Right Panel -->
       <div class="picker-right-panel" id="exercisePreviewPanel">
-        <!-- Populated by JavaScript -->
         <div class="preview-placeholder">
           <div class="preview-watermark">FORGE</div>
           <div class="preview-hint">Select or hover an exercise to preview</div>
@@ -170,112 +138,74 @@
       <button class="btn-secondary" onclick="cancelPicker()">Cancel</button>
       <button class="btn-primary" id="addSelectedBtn" onclick="confirmExercises()" disabled>Add Exercises</button>
     </div>
-  </div><!-- end #pickerScreen -->
+  </div>
 
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SCREEN: ACTIVE WORKOUT
-       The main logging screen during a live session.
-       Contains: editable title, note, exercise blocks with sets.
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- SCREEN: ACTIVE WORKOUT -->
   <div class="screen" id="workoutScreen">
     <div class="workout-screen">
 
-      <!-- Header: editable workout name + action buttons -->
       <div class="workout-header">
-        <!-- Editable title input — value saved on finishWorkout() -->
         <input type="text" class="workout-title-input" id="workoutTitle" value="Morning Workout" />
         <div class="workout-actions">
-          <!-- Discard: prompts confirmation then clears session -->
           <button class="icon-btn" onclick="discardWorkout()" title="Discard Workout">🗑</button>
-          <!-- Finish: opens the summary modal -->
           <button class="icon-btn finish" onclick="openFinishModal()">Finish</button>
         </div>
       </div>
 
-      <!-- Optional session note (saved with workout) -->
       <textarea class="workout-note" id="workoutNote" placeholder="Add a note... (optional)"></textarea>
 
-      <!-- Exercise blocks injected here by renderExerciseBlocks() in app.js -->
-      <div id="exerciseBlocks">
-        <!-- Each exercise gets a .exercise-block div with set rows inside -->
-      </div>
+      <div id="exerciseBlocks"></div>
 
-      <!-- Floating action button to add more exercises mid-workout -->
       <button class="add-exercise-floating" onclick="openPicker('workout')">
         <span>＋</span> Add Exercise
       </button>
 
     </div>
-  </div><!-- end #workoutScreen -->
+  </div>
 
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SCREEN: ROUTINES
-       7-day split overview, allowing the user to view and edit each day.
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- SCREEN: ROUTINES — Preset Splits -->
   <div class="screen" id="routinesScreen">
     <div class="routines-screen dashboard">
-      <div class="section-title" style="margin-bottom: 24px;">YOUR 7-DAY SPLIT</div>
+      <div class="routines-header">
+        <div class="section-title" style="margin-bottom: 0;">WORKOUT ROUTINES</div>
+        <div class="routine-split-toggle" id="splitToggle">
+          <button class="split-toggle-btn active" onclick="switchSplit('4day')">4-Day Split</button>
+          <button class="split-toggle-btn" onclick="switchSplit('5day')">5-Day Split</button>
+        </div>
+      </div>
       <div class="routines-list" id="routinesList">
         <!-- Rendered by renderRoutines() in app.js -->
       </div>
     </div>
-  </div><!-- end #routinesScreen -->
+  </div>
 
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SCREEN: ROUTINE BUILDER
-       Used to edit a specific day's routine, add/remove exercises, and rename the session.
-  ═══════════════════════════════════════════════════════════════ -->
-  <div class="screen" id="routineBuilderScreen">
-    <div class="workout-screen">
-      <div class="workout-header">
-        <input type="text" class="workout-title-input" id="routineTitle" value="Workout" />
-        <div class="workout-actions">
-          <button class="icon-btn" onclick="cancelRoutineEdit()" title="Cancel">✕</button>
-          <button class="icon-btn finish" onclick="saveRoutine()">Save</button>
-        </div>
-      </div>
-
-      <div class="section-title">Exercises</div>
-      <div id="routineExerciseBlocks" style="margin-bottom: 24px;">
-        <!-- Injected by renderRoutineExerciseBlocks() -->
-      </div>
-
-      <button class="add-exercise-floating"
-        style="position: relative; width: 100%; border-radius: var(--radius-sm); margin-bottom: 24px; transform: none; left: auto; bottom: auto;"
-        onclick="openPicker('routine')">
-        <span>＋</span> Add Exercise
-      </button>
-
-    </div>
-  </div><!-- end #routineBuilderScreen -->
-
-
-  <!-- ═══════════════════════════════════════════════════════════════
-       SCREEN: HISTORY
-       Full workout history list, newest first.
-       Rendered by renderHistory() in app.js.
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- SCREEN: HISTORY — With Calendar -->
   <div class="screen" id="historyScreen">
-    <div class="history-screen">
-      <div class="history-page-title">WORKOUT HISTORY</div>
-      <div class="history-list" id="historyList">
-        <!-- Populated dynamically by JavaScript -->
-        <div class="empty-state">
-          <div class="empty-icon">📅</div>
-          <div class="empty-text">No workout history yet.</div>
+    <div class="history-screen history-layout">
+      <!-- Left: Workout List -->
+      <div class="history-list-section">
+        <div class="history-page-title">WORKOUT HISTORY</div>
+        <div class="history-list" id="historyList">
+          <div class="empty-state">
+            <div class="empty-icon">📅</div>
+            <div class="empty-text">No workout history yet.</div>
+          </div>
+        </div>
+      </div>
+      <!-- Right: Calendar -->
+      <div class="history-calendar-section">
+        <div class="calendar-container" id="calendarContainer">
+          <!-- Rendered by renderCalendar() in app.js -->
         </div>
       </div>
     </div>
-  </div><!-- end #historyScreen -->
+  </div>
 
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       MODAL: EXERCISE INFO
-       Shown when user clicks the "?" next to an exercise.
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- MODAL: EXERCISE INFO -->
   <div class="modal-overlay blur-overlay" id="exerciseInfoModal">
     <div class="modal info-modal">
       <button class="info-modal-close" onclick="closeInfoModal()">✕</button>
@@ -289,20 +219,15 @@
       <div class="info-two-col">
         <div class="info-left">
           <div class="info-section-label">Instructions</div>
-          <ul class="info-steps" id="infoSteps">
-            <!-- Injected via JS -->
-          </ul>
+          <ul class="info-steps" id="infoSteps"></ul>
 
           <div class="info-section-label" style="margin-top: 24px;">Common Mistakes</div>
-          <div class="info-mistakes-box" id="infoMistakes">
-            <!-- Injected via JS -->
-          </div>
+          <div class="info-mistakes-box" id="infoMistakes"></div>
         </div>
 
         <div class="info-right">
           <div class="info-section-label">Targeted Muscles</div>
           <div class="info-silhouette">
-            <!-- Dummy CSS silhouette placeholder -->
             <div class="silhouette-body">
               <div class="silhouette-muscle-highlight" id="infoMuscleBadge">Muscle</div>
             </div>
@@ -310,21 +235,15 @@
         </div>
       </div>
     </div>
-  </div><!-- end #exerciseInfoModal -->
+  </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       MODAL: FINISH WORKOUT SUMMARY
-       Overlays any screen. Stats populated by openFinishModal() in app.js.
-       "Save Workout" calls finishWorkout() to persist data.
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- MODAL: FINISH WORKOUT SUMMARY -->
   <div class="modal-overlay" id="finishModal">
     <div class="modal">
       <div class="modal-icon">🏆</div>
       <div class="modal-title">WORKOUT DONE!</div>
-      <!-- Duration text injected by openFinishModal() -->
       <div class="modal-subtitle" id="modalDuration">Duration: 0 min</div>
 
-      <!-- Summary stats — values injected by openFinishModal() -->
       <div class="modal-stats">
         <div class="modal-stat">
           <div class="modal-stat-val" id="modalExercises">0</div>
@@ -340,16 +259,14 @@
         </div>
       </div>
 
-      <!-- Actions -->
       <div class="modal-actions">
         <button class="btn-secondary" onclick="closeFinishModal()">Keep Going</button>
         <button class="btn-primary" onclick="finishWorkout()">Save Workout</button>
       </div>
     </div>
-  </div><!-- end #finishModal -->
+  </div>
 
 
-  <!-- Main application logic -->
   <script src="app.js"></script>
 
 </body>
